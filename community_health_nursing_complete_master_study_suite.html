@@ -1,0 +1,2495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community Health Nursing | Umm Al-Qura University Comprehensive Master Study Suite</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            uqu: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              600: '#00796b',
+              700: '#005744',
+              800: '#064e3b',
+              900: '#022c22',
+            },
+            gold: {
+              400: '#fbbf24',
+              500: '#d97706',
+              600: '#b45309',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Smooth scrolling and highlight rendering */
+    html {
+      scroll-behavior: smooth;
+    }
+    ::selection {
+      background-color: #fef08a;
+      color: #1e293b;
+    }
+    .highlight-yellow { background-color: #fef08a !important; color: #0f172a !important; padding: 2px 4px; border-radius: 4px; }
+    .highlight-green  { background-color: #bbf7d0 !important; color: #0f172a !important; padding: 2px 4px; border-radius: 4px; }
+    .highlight-cyan   { background-color: #a5f3fc !important; color: #0f172a !important; padding: 2px 4px; border-radius: 4px; }
+    .highlight-pink   { background-color: #fbcfe8 !important; color: #0f172a !important; padding: 2px 4px; border-radius: 4px; }
+    .highlight-purple { background-color: #e9d5ff !important; color: #0f172a !important; padding: 2px 4px; border-radius: 4px; }
+
+    /* Laser canvas overlay */
+    #laserCanvas {
+      pointer-events: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 9999;
+    }
+
+    /* Flip Card Styles */
+    .perspective {
+      perspective: 1000px;
+    }
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: left;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-style: preserve-3d;
+    }
+    .flip-card-inner.is-flipped {
+      transform: rotateY(180deg);
+    }
+    .flip-card-front, .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 0.75rem;
+    }
+    .flip-card-back {
+      transform: rotateY(180deg);
+    }
+
+    /* Zen Focus Dimmer */
+    .zen-backdrop {
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(4px);
+      transition: all 0.3s ease;
+    }
+    .zen-active {
+      box-shadow: 0 0 0 9999px rgba(15, 23, 42, 0.88), 0 0 35px rgba(16, 185, 129, 0.5) !important;
+      position: relative;
+      z-index: 9990 !important;
+    }
+    
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-yellow-200">
+
+  <!-- Interactive Laser Overlay Canvas -->
+  <canvas id="laserCanvas"></canvas>
+
+  <!-- Notification Toast Modal Container -->
+  <div id="toastContainer" class="fixed bottom-6 right-6 z-[10000] flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- Top Sticky Navigation & Study Command Bar -->
+  <header class="sticky top-0 z-40 bg-uqu-800 text-white shadow-lg border-b border-uqu-700">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        
+        <!-- Brand & Academic Identity -->
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center p-1.5 border border-white/20">
+            <!-- UQU Emblem Shield Icon -->
+            <svg class="w-7 h-7 text-gold-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18m-8-6l8 6 8-6M4 9l8 6 8-6M12 3l8 4.5M12 3L4 7.5" />
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-lg font-bold tracking-tight text-white flex items-center gap-2">
+              UQU CHN Master Suite <span class="text-xs bg-gold-500/20 text-gold-400 border border-gold-400/40 px-2 py-0.5 rounded-full font-medium">1448H / 2026</span>
+            </h1>
+            <p class="text-xs text-emerald-200 hidden sm:block">Community Health Nursing &bull; Dr. Muna Alharbi & Faculty &bull; Midterm Comprehensive</p>
+          </div>
+        </div>
+
+        <!-- Live Global Search Input -->
+        <div class="relative w-48 sm:w-72 md:w-80">
+          <input type="text" id="globalSearch" placeholder="Search concept, indicator, slide..."
+            class="w-full bg-uqu-900/60 text-emerald-100 placeholder-emerald-300/60 text-xs sm:text-sm rounded-full pl-9 pr-4 py-2 border border-emerald-600/50 focus:outline-none focus:ring-2 focus:ring-gold-400 focus:bg-uqu-900 transition-all">
+          <svg class="w-4 h-4 text-emerald-300 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+
+        <!-- Fast Role Switcher Buttons -->
+        <div class="flex items-center space-x-2">
+          <!-- Focus Mode Trigger -->
+          <button id="focusModeToggle" class="p-2 rounded-lg bg-uqu-700 hover:bg-uqu-600 text-gold-400 hover:text-white transition flex items-center gap-1.5 text-xs font-semibold" title="Focus Timer & Zen Spotlight">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="hidden md:inline">Focus Hub</span>
+          </button>
+
+          <!-- Study Tool Drawer Toggle -->
+          <button id="smartStudyToggle" class="p-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white transition flex items-center gap-1.5 text-xs font-semibold shadow-sm" title="Active Recall & Quiz Hub">
+            <svg class="w-5 h-5 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+            <span class="hidden md:inline">Smarter Study</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Interactive Role Controls Sub-Bar (Highlighter, Laser, Filter) -->
+    <div class="bg-uqu-900/90 border-t border-uqu-700/60 px-4 py-2 backdrop-blur-md">
+      <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
+        
+        <!-- Lecture Quick Nav Pills -->
+        <div class="flex items-center space-x-1.5 overflow-x-auto py-1 max-w-full" id="lecturePillFilter">
+          <button data-filter="all" class="px-3 py-1 rounded-full bg-gold-500 text-white font-semibold shadow-sm whitespace-nowrap">All Lectures</button>
+          <button data-filter="l1" class="px-3 py-1 rounded-full bg-uqu-800 text-emerald-200 hover:bg-uqu-700 whitespace-nowrap">L1: Foundations</button>
+          <button data-filter="l2" class="px-3 py-1 rounded-full bg-uqu-800 text-emerald-200 hover:bg-uqu-700 whitespace-nowrap">L2: Assessment</button>
+          <button data-filter="l3" class="px-3 py-1 rounded-full bg-uqu-800 text-emerald-200 hover:bg-uqu-700 whitespace-nowrap">L3: PHC &amp; Vision</button>
+          <button data-filter="l4" class="px-3 py-1 rounded-full bg-uqu-800 text-emerald-200 hover:bg-uqu-700 whitespace-nowrap">L4: Family Client</button>
+          <button data-filter="l5" class="px-3 py-1 rounded-full bg-uqu-800 text-emerald-200 hover:bg-uqu-700 whitespace-nowrap">L5: School Health</button>
+          <button data-filter="l6" class="px-3 py-1 rounded-full bg-uqu-800 text-emerald-200 hover:bg-uqu-700 whitespace-nowrap">L6: Promotion &amp; Mobilization</button>
+        </div>
+
+        <!-- Custom Tool Role Controls: Highlighter & Laser Pen -->
+        <div class="flex items-center gap-4 ml-auto">
+          
+          <!-- Highlighter Role Selector -->
+          <div class="flex items-center space-x-1 bg-uqu-800/80 p-1 rounded-lg border border-uqu-700">
+            <span class="text-emerald-300 font-medium px-1 flex items-center gap-1">
+              <svg class="w-3.5 h-3.5 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+              Highlighter:
+            </span>
+            <button class="hl-swatch w-4 h-4 rounded-full bg-yellow-300 border-2 border-white ring-1 ring-yellow-400" data-color="yellow" title="Fluorescent Yellow"></button>
+            <button class="hl-swatch w-4 h-4 rounded-full bg-emerald-300 opacity-60 hover:opacity-100" data-color="green" title="Mint Green"></button>
+            <button class="hl-swatch w-4 h-4 rounded-full bg-cyan-300 opacity-60 hover:opacity-100" data-color="cyan" title="Cyan Blue"></button>
+            <button class="hl-swatch w-4 h-4 rounded-full bg-pink-300 opacity-60 hover:opacity-100" data-color="pink" title="Coral Pink"></button>
+            <button class="hl-swatch w-4 h-4 rounded-full bg-purple-300 opacity-60 hover:opacity-100" data-color="purple" title="Lilac Purple"></button>
+            <button id="hlEraser" class="px-2 py-0.5 rounded bg-uqu-700 hover:bg-red-600 text-[10px] text-white ml-1 font-medium" title="Clear or Remove Highlight">Eraser</button>
+          </div>
+
+          <!-- Laser Pen Role Controller -->
+          <div class="flex items-center space-x-2 bg-uqu-800/80 p-1 rounded-lg border border-uqu-700">
+            <button id="laserToggleBtn" class="px-2.5 py-1 rounded bg-slate-700 hover:bg-slate-600 text-white font-semibold flex items-center gap-1 transition">
+              <span class="w-2 h-2 rounded-full bg-red-500 animate-ping" id="laserStatusIndicator" style="display:none;"></span>
+              <svg class="w-3.5 h-3.5 text-red-400" fill="currentColor" viewBox="0 0 20 20"><circle cx="10" cy="10" r="7"/></svg>
+              <span id="laserBtnLabel">Laser: OFF</span>
+            </button>
+            <div id="laserColorPicker" class="hidden sm:flex items-center space-x-1 pl-1">
+              <button class="laser-col w-3.5 h-3.5 rounded-full bg-red-500 ring-2 ring-white" data-laser="#ef4444" title="Neon Red"></button>
+              <button class="laser-col w-3.5 h-3.5 rounded-full bg-emerald-400 opacity-50 hover:opacity-100" data-laser="#10b981" title="Neon Emerald"></button>
+              <button class="laser-col w-3.5 h-3.5 rounded-full bg-sky-400 opacity-50 hover:opacity-100" data-laser="#38bdf8" title="Cyber Cyan"></button>
+              <button class="laser-col w-3.5 h-3.5 rounded-full bg-amber-400 opacity-50 hover:opacity-100" data-laser="#f59e0b" title="Solar Gold"></button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- Focus Session Modal / Drawer -->
+  <div id="focusModal" class="fixed inset-0 z-50 hidden bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 border border-slate-200 transform transition-all">
+      <div class="flex items-center justify-between border-b pb-4 mb-4">
+        <div class="flex items-center gap-2">
+          <div class="p-2 bg-emerald-100 text-uqu-700 rounded-lg">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-slate-800 text-base">Custom Focus &amp; Pomodoro Hub</h3>
+            <p class="text-xs text-slate-500">Science-backed spaced retention timer with auditory cues</p>
+          </div>
+        </div>
+        <button id="closeFocusModal" class="text-slate-400 hover:text-slate-600 p-1 rounded-lg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Timer Display -->
+      <div class="text-center py-6 bg-slate-50 rounded-xl mb-5 border border-slate-200">
+        <div id="timerDisplay" class="text-5xl font-mono font-bold text-uqu-800 tracking-wider">25:00</div>
+        <p id="timerStateLabel" class="text-xs uppercase tracking-widest text-slate-500 font-semibold mt-2">Active Study Phase</p>
+      </div>
+
+      <!-- Presets & Duration Selector -->
+      <div class="grid grid-cols-4 gap-2 mb-5">
+        <button class="timer-preset py-1.5 text-xs font-semibold rounded-lg bg-emerald-100 text-uqu-800 hover:bg-emerald-200" data-mins="15">15 min</button>
+        <button class="timer-preset py-1.5 text-xs font-semibold rounded-lg bg-emerald-700 text-white shadow-sm" data-mins="25">25 min</button>
+        <button class="timer-preset py-1.5 text-xs font-semibold rounded-lg bg-emerald-100 text-uqu-800 hover:bg-emerald-200" data-mins="45">45 min</button>
+        <button class="timer-preset py-1.5 text-xs font-semibold rounded-lg bg-emerald-100 text-uqu-800 hover:bg-emerald-200" data-mins="60">60 min</button>
+      </div>
+
+      <!-- Timer Control Actions -->
+      <div class="flex items-center gap-3 mb-5">
+        <button id="startTimerBtn" class="flex-1 py-3 bg-uqu-700 hover:bg-uqu-800 text-white font-bold rounded-xl shadow-md transition flex items-center justify-center gap-2">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"/></svg>
+          Start Session
+        </button>
+        <button id="pauseTimerBtn" class="px-4 py-3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold rounded-xl transition">Pause</button>
+        <button id="resetTimerBtn" class="px-4 py-3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold rounded-xl transition">Reset</button>
+      </div>
+
+      <!-- Zen Spotlight Dimmer Mode Toggle -->
+      <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          <div>
+            <span class="text-xs font-bold text-amber-900 block">Zen Focus Spotlight</span>
+            <span class="text-[11px] text-amber-700">Dims outer layout to isolate active section</span>
+          </div>
+        </div>
+        <input type="checkbox" id="zenToggle" class="w-5 h-5 text-uqu-700 rounded focus:ring-uqu-600 cursor-pointer">
+      </div>
+    </div>
+  </div>
+
+  <!-- Smarter Studying Hub Modal (Flashcards, Quizzes, Comparison Matrix) -->
+  <div id="smartStudyModal" class="fixed inset-0 z-50 hidden bg-slate-900/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[92vh] flex flex-col border border-slate-200 overflow-hidden">
+      
+      <!-- Modal Header & Tab Navigation -->
+      <div class="bg-uqu-800 text-white p-4 flex flex-wrap items-center justify-between gap-3 border-b border-uqu-700">
+        <div class="flex items-center gap-2">
+          <div class="p-2 bg-gold-500 rounded-lg text-slate-900">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-base leading-none">CHN Smarter Studying &amp; Active Recall Engine</h3>
+            <p class="text-xs text-emerald-200 mt-1">High-yield recall, exam questions with rationale, &amp; comparative matrices</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <div class="flex bg-uqu-900/80 p-1 rounded-lg border border-uqu-700 text-xs font-semibold">
+            <button class="study-tab-btn px-3 py-1 rounded bg-gold-500 text-slate-900" data-target="flashcardSection">Flashcards</button>
+            <button class="study-tab-btn px-3 py-1 rounded text-emerald-200 hover:text-white" data-target="quizSection">Mock Quiz</button>
+            <button class="study-tab-btn px-3 py-1 rounded text-emerald-200 hover:text-white" data-target="matricesSection">Cheat Sheet</button>
+            <button class="study-tab-btn px-3 py-1 rounded text-emerald-200 hover:text-white" data-target="casesSection">Clinical Cases</button>
+          </div>
+          <button id="closeSmartStudyModal" class="text-emerald-300 hover:text-white p-1 rounded">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Modal Body Content -->
+      <div class="p-6 overflow-y-auto flex-1 bg-slate-50">
+        
+        <!-- Tab 1: Flashcards Engine -->
+        <div id="flashcardSection" class="study-tab-panel">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <span id="cardCategoryBadge" class="text-xs font-bold uppercase tracking-wider bg-uqu-100 text-uqu-800 px-2.5 py-1 rounded-full">Lecture 1 &bull; Core Definition</span>
+              <span id="cardProgress" class="text-xs font-medium text-slate-500 ml-2">Card 1 of 12</span>
+            </div>
+            <div class="text-xs text-slate-500 flex items-center gap-2">
+              <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500"></span> <span id="masteredCount">0</span> Mastered
+            </div>
+          </div>
+
+          <!-- 3D Flippable Card Frame -->
+          <div class="perspective w-full h-72 sm:h-80 cursor-pointer" id="activeFlashcard">
+            <div class="flip-card-inner shadow-lg rounded-2xl bg-white border border-slate-200" id="cardInner">
+              
+              <!-- Front Face -->
+              <div class="flip-card-front p-8 flex flex-col justify-between bg-white border border-slate-200">
+                <div class="flex justify-between items-start">
+                  <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md">PROMPT / QUESTION</span>
+                  <span class="text-xs text-slate-400 flex items-center gap-1">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                    Click to flip
+                  </span>
+                </div>
+                <div class="my-auto">
+                  <h4 id="cardQuestion" class="text-lg sm:text-xl font-bold text-slate-800 leading-snug">What are the key differences between a Community, a Population, and an Aggregate?</h4>
+                </div>
+                <div class="text-xs text-slate-400 italic">Think actively before flipping to review the exact slide definition!</div>
+              </div>
+
+              <!-- Back Face -->
+              <div class="flip-card-back p-8 flex flex-col justify-between bg-uqu-900 text-white border border-uqu-800">
+                <div class="flex justify-between items-start">
+                  <span class="text-xs font-bold text-gold-400 bg-gold-400/20 px-2.5 py-1 rounded-md">VERIFIED CORE ANSWER</span>
+                  <span id="cardSlideRef" class="text-xs text-emerald-300 font-mono">Slide 3-7 &bull; Rector p. 82-90</span>
+                </div>
+                <div class="my-auto overflow-y-auto max-h-48 pr-1 text-sm sm:text-base leading-relaxed text-slate-200" id="cardAnswer">
+                  <p class="font-semibold text-emerald-300 mb-1">&bull; Community:</p> People sharing location, common interest, or identity with <strong>interaction &amp; sense of belonging</strong> (e.g. neighborhood).
+                  <p class="font-semibold text-sky-300 mt-2 mb-1">&bull; Population:</p> All persons occupying an area or sharing characteristics who do <strong>not necessarily interact</strong> (e.g. adults &ge; 65 years).
+                  <p class="font-semibold text-amber-300 mt-2 mb-1">&bull; Aggregate:</p> Broader mass or loosely associated subgroup considered collectively for health purposes (e.g. older adults with diabetes).
+                </div>
+                <div class="text-xs text-emerald-400/80">Click card again to flip back.</div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Card Navigation Controls -->
+          <div class="flex items-center justify-between mt-5 gap-3">
+            <button id="prevCardBtn" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-bold rounded-lg transition">Previous</button>
+            <div class="flex gap-2">
+              <button id="markReviewBtn" class="px-3 py-2 bg-amber-100 hover:bg-amber-200 text-amber-900 text-xs font-semibold rounded-lg transition">Mark for Review</button>
+              <button id="markMasteredBtn" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg transition flex items-center gap-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                Mastered
+              </button>
+            </div>
+            <button id="nextCardBtn" class="px-4 py-2 bg-uqu-700 hover:bg-uqu-800 text-white text-xs font-bold rounded-lg transition">Next Card</button>
+          </div>
+        </div>
+
+        <!-- Tab 2: Smart Practice Quiz Engine -->
+        <div id="quizSection" class="study-tab-panel hidden">
+          <div class="bg-white p-5 rounded-xl border border-slate-200 mb-5 shadow-sm">
+            <div class="flex items-center justify-between mb-3 border-b pb-2">
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded text-xs font-bold bg-uqu-100 text-uqu-800" id="quizQuestionBadge">Question 1 of 8</span>
+                <span class="text-xs text-slate-500" id="quizCitationBadge">[L1 &bull; Slide 16 &bull; MOH 2025]</span>
+              </div>
+              <div class="text-xs font-semibold text-slate-600" id="quizScoreTracker">Score: 0 / 0</div>
+            </div>
+            
+            <h4 id="quizQuestionText" class="text-base font-bold text-slate-800 mb-4 leading-relaxed">
+              According to the Saudi Ministry of Health 2025 Health Sector Annual Report, which of the following is correct regarding life expectancy and road-traffic fatalities?
+            </h4>
+
+            <div class="space-y-2.5" id="quizOptionsContainer">
+              <!-- Rendered via JS -->
+            </div>
+
+            <!-- Quiz Explanation Box -->
+            <div id="quizExplanation" class="hidden mt-4 p-3.5 rounded-lg text-xs leading-relaxed"></div>
+          </div>
+
+          <div class="flex justify-between items-center">
+            <button id="resetQuizBtn" class="text-xs text-slate-500 hover:text-slate-800 underline">Reset Quiz Engine</button>
+            <button id="nextQuizBtn" class="px-5 py-2.5 bg-uqu-700 hover:bg-uqu-800 text-white text-xs font-bold rounded-lg shadow-sm transition disabled:opacity-50" disabled>Next Question &rarr;</button>
+          </div>
+        </div>
+
+        <!-- Tab 3: High-Yield Matrices / Cheat Sheet -->
+        <div id="matricesSection" class="study-tab-panel hidden space-y-6">
+          <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+            <h4 class="font-bold text-uqu-800 text-sm mb-3 flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-gold-500"></span> Matrix 1: Community vs. Population vs. Aggregate (L1 Slide 7)
+            </h4>
+            <div class="overflow-x-auto">
+              <table class="w-full text-xs text-left border-collapse">
+                <thead>
+                  <tr class="bg-slate-100 border-b border-slate-200 text-slate-700">
+                    <th class="p-2.5 font-bold">Concept</th>
+                    <th class="p-2.5 font-bold">Definition &amp; Core Distinctions</th>
+                    <th class="p-2.5 font-bold">Key Criterion</th>
+                    <th class="p-2.5 font-bold">Curriculum Example</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200 text-slate-600">
+                  <tr class="hover:bg-slate-50">
+                    <td class="p-2.5 font-bold text-uqu-800">Community</td>
+                    <td class="p-2.5">Collection of people sharing important life features, common interests or characteristics.</td>
+                    <td class="p-2.5 text-emerald-700 font-semibold">Active interaction &amp; sense of unity / belonging</td>
+                    <td class="p-2.5">Residents of a neighborhood, city, mosque group</td>
+                  </tr>
+                  <tr class="hover:bg-slate-50">
+                    <td class="p-2.5 font-bold text-sky-800">Population</td>
+                    <td class="p-2.5">All people occupying an area or sharing 1+ demographic / health characteristics.</td>
+                    <td class="p-2.5 text-slate-700">Do <strong>NOT</strong> necessarily interact or share belonging</td>
+                    <td class="p-2.5">Adults &ge; 65 years, city population</td>
+                  </tr>
+                  <tr class="hover:bg-slate-50">
+                    <td class="p-2.5 font-bold text-amber-800">Aggregate</td>
+                    <td class="p-2.5">Broader mass or grouping of distinct individuals considered as a whole, loosely associated. Both communities &amp; populations are types of aggregates.</td>
+                    <td class="p-2.5 text-amber-700">Subgroup considered collectively for health actions</td>
+                    <td class="p-2.5">Older adults with diabetes; pregnant/parenting teens; men with HIV/AIDS</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+            <h4 class="font-bold text-uqu-800 text-sm mb-3 flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span> Matrix 2: Cultural Competence vs. Cultural Humility (L1 Slide 29-30)
+            </h4>
+            <div class="overflow-x-auto">
+              <table class="w-full text-xs text-left border-collapse">
+                <thead>
+                  <tr class="bg-slate-100 border-b border-slate-200 text-slate-700">
+                    <th class="p-2.5 font-bold">Construct</th>
+                    <th class="p-2.5 font-bold">Standard Definition</th>
+                    <th class="p-2.5 font-bold">Functional Role in Nursing</th>
+                    <th class="p-2.5 font-bold">Golden Clinical Rule</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200 text-slate-600">
+                  <tr class="hover:bg-slate-50">
+                    <td class="p-2.5 font-bold text-emerald-800">Cultural Competency</td>
+                    <td class="p-2.5">The attitudes, knowledge, and skills used to provide quality care to culturally diverse populations (Savage p. 8-9).</td>
+                    <td class="p-2.5">The <strong>standard</strong> to guide care delivery to individuals &amp; populations.</td>
+                    <td class="p-2.5">Always individualize assessment; never generalize based on cultural group norms.</td>
+                  </tr>
+                  <tr class="hover:bg-slate-50">
+                    <td class="p-2.5 font-bold text-gold-600">Cultural Humility</td>
+                    <td class="p-2.5">Understanding that self-awareness of one's culture is an ongoing journey; acknowledging we must approach others as equals with respect.</td>
+                    <td class="p-2.5">The <strong>underlying quality</strong> needed to truly implement interventions in authentic partnership.</td>
+                    <td class="p-2.5">Ask rather than assume; listen to cultural beliefs and honor community autonomy.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+            <h4 class="font-bold text-uqu-800 text-sm mb-3 flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-blue-600"></span> Matrix 3: Formative vs. Summative Evaluation (L2 Slide 73-76)
+            </h4>
+            <div class="overflow-x-auto">
+              <table class="w-full text-xs text-left border-collapse">
+                <thead>
+                  <tr class="bg-slate-100 border-b border-slate-200 text-slate-700">
+                    <th class="p-2.5 font-bold">Type</th>
+                    <th class="p-2.5 font-bold">Primary Focus</th>
+                    <th class="p-2.5 font-bold">Core Question</th>
+                    <th class="p-2.5 font-bold">Curriculum Textbook Example</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200 text-slate-600">
+                  <tr class="hover:bg-slate-50">
+                    <td class="p-2.5 font-bold text-teal-800">Formative Evaluation</td>
+                    <td class="p-2.5 font-semibold text-teal-700">Process during the actual intervention step-by-step.</td>
+                    <td class="p-2.5 italic">"Could I do anything better or differently to increase my desired outcome?"</td>
+                    <td class="p-2.5">Senior evening class has poor attendance due to night driving fears. Class rescheduled to midmorning; attendance dramatically rises.</td>
+                  </tr>
+                  <tr class="hover:bg-slate-50">
+                    <td class="p-2.5 font-bold text-indigo-800">Summative Evaluation</td>
+                    <td class="p-2.5 font-semibold text-indigo-700">Outcome / impact after completion of intervention.</td>
+                    <td class="p-2.5 italic">"To what degree was the outcome objective achieved and sustained?"</td>
+                    <td class="p-2.5">Factory safety campaign: PPE adherence rises from 80% to 95% at 3-month follow-up (15% net improvement attributed to the program).</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+            <h4 class="font-bold text-uqu-800 text-sm mb-3 flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-purple-600"></span> Matrix 4: Chin &amp; Benne Planned Change Strategies (L6 Slide 213-216)
+            </h4>
+            <div class="overflow-x-auto">
+              <table class="w-full text-xs text-left border-collapse">
+                <thead>
+                  <tr class="bg-slate-100 border-b border-slate-200 text-slate-700">
+                    <th class="p-2.5 font-bold">Strategy</th>
+                    <th class="p-2.5 font-bold">Core Theoretical Assumption</th>
+                    <th class="p-2.5 font-bold">Method / Tool</th>
+                    <th class="p-2.5 font-bold">Target Client &amp; Precaution</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200 text-slate-600">
+                  <tr class="hover:bg-slate-50">
+                    <td class="p-2.5 font-bold text-slate-800">Empiric-Rational</td>
+                    <td class="p-2.5">People are rational and will adopt changes in their best interest when given factual data.</td>
+                    <td class="p-2.5">Presenting facts, stats, scientific evidence.</td>
+                    <td class="p-2.5">Clients with high responsibility for own health.</td>
+                  </tr>
+                  <tr class="hover:bg-slate-50">
+                    <td class="p-2.5 font-bold text-purple-800">Normative-Re-educative</td>
+                    <td class="p-2.5">Behavior is guided by sociocultural norms and peer values; info alone is insufficient.</td>
+                    <td class="p-2.5">Direct persuasion, counseling, shifting social norms.</td>
+                    <td class="p-2.5">Clients needing external assistance to build self-understanding.</td>
+                  </tr>
+                  <tr class="hover:bg-slate-50">
+                    <td class="p-2.5 font-bold text-red-800">Power-Coercive</td>
+                    <td class="p-2.5">Compliance is forced via authority, law, sanctions, or position.</td>
+                    <td class="p-2.5">Legal mandates, regulatory fines, policy orders.</td>
+                    <td class="p-2.5 text-red-700">Emergency / life-threatening situations only. <em>Caution:</em> Can rob clients of autonomy!</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 4: Interactive Clinical Cases Simulator -->
+        <div id="casesSection" class="study-tab-panel hidden space-y-5">
+          <!-- Case 1: Al-Hassan Family -->
+          <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold bg-amber-100 text-amber-800 px-2 py-0.5 rounded">Case 1 &bull; Lecture 4 [Slide 159-160]</span>
+              <span class="text-xs text-slate-400">Family Nursing Process</span>
+            </div>
+            <h4 class="font-bold text-slate-800 text-base mb-2">The Al-Hassan Family Clinical Assessment</h4>
+            <p class="text-xs text-slate-600 leading-relaxed mb-3">
+              <strong>Scenario:</strong> Two parents, three children, and a grandmother living nearby. One child has asthma with 2 emergency visits in 6 months. Mother manages all medications and reports severe fatigue. Father works long hours and cannot attend clinic visits. Family seeks fewer ER visits but cannot maintain home routines.
+            </p>
+            <div class="bg-slate-50 p-3 rounded-lg border border-slate-200 text-xs space-y-2">
+              <p><strong>1. Immediate Strengths:</strong> Intact nuclear family with nearby extended support (grandmother), genuine desire to improve child health.</p>
+              <p><strong>2. Contributing Dynamics (Family as System):</strong> Child's uncontrolled asthma &rarr; maternal sleep fatigue &rarr; father role strain working extra &rarr; collapsed routine &rarr; missed inhalers &rarr; ER visit &rarr; crisis cycle.</p>
+              <p><strong>3. Nursing Care Plan (Measurable Goal):</strong> "Child will experience zero asthma ER visits over the next 6 months through consistent adherence to a shared family asthma action plan."</p>
+              <p><strong>4. Concrete Interventions:</strong> Teach asthma spacer technique to both parents and grandmother; synchronize refills via digital Sehhaty app; establish a visible morning/evening reminder chart.</p>
+            </div>
+          </div>
+
+          <!-- Case 2: Elmwood Senior Community Diagnosis -->
+          <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold bg-teal-100 text-teal-800 px-2 py-0.5 rounded">Case 2 &bull; Lecture 2 [Slide 66-67]</span>
+              <span class="text-xs text-slate-400">4-Part Community Nursing Diagnosis</span>
+            </div>
+            <h4 class="font-bold text-slate-800 text-base mb-2">Elmwood Senior Residential Isolation Case</h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+              <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
+                <span class="font-bold text-uqu-800 block mb-1">Part 1: The Problem</span>
+                Lack of meaningful social interaction resulting in social isolation.
+              </div>
+              <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
+                <span class="font-bold text-uqu-800 block mb-1">Part 2: The Population</span>
+                Older adult population living in the two Elmwood senior residential buildings.
+              </div>
+              <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
+                <span class="font-bold text-uqu-800 block mb-1">Part 3: Related To (Etiology)</span>
+                Absence of formal programs, limited social contact, inadequate community safety, and restricted mobility.
+              </div>
+              <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
+                <span class="font-bold text-uqu-800 block mb-1">Part 4: Demonstrated By (Indicators)</span>
+                Residents naming only 1 other person; elevator silence; 2nd highest city crime rate; 62% loneliness rate; 59% mobility impairments.
+              </div>
+            </div>
+          </div>
+
+          <!-- Case 3: Action Cycle of Community Mobilization -->
+          <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold bg-purple-100 text-purple-800 px-2 py-0.5 rounded">Case 3 &bull; Lecture 6 [Slide 232]</span>
+              <span class="text-xs text-slate-400">7-Step Action Cycle</span>
+            </div>
+            <h4 class="font-bold text-slate-800 text-base mb-2">Female Circumcision Sensitization Campaign</h4>
+            <ol class="list-decimal list-inside text-xs text-slate-600 space-y-1.5 leading-relaxed">
+              <li><strong>Identify Significant Problem:</strong> High prevalence of female genital circumcision and associated complications in the district.</li>
+              <li><strong>Plan &amp; Select Strategy:</strong> Conduct specialized sensitization workshops for influential community figures.</li>
+              <li><strong>Identify Key Actors:</strong> Village chief, Imam, heads of influential families, and local midwives.</li>
+              <li><strong>Mobilize Stakeholders:</strong> Facilitate continuous respectful dialogue to achieve shared consensus.</li>
+              <li><strong>Implement Activities:</strong> Capitalize on workshop sensitization with sustained school and community educational follow-ups.</li>
+              <li><strong>Assess Results:</strong> Measure reduction in reported procedures and community attitude shift.</li>
+              <li><strong>Improve Activities:</strong> Adapt outreach messages based on assessment feedback.</li>
+            </ol>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Grid Content Area: Sticky Table of Contents & Lecture Modules -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <!-- Left Column: Information Navigation Sidebar (Sticky) -->
+      <aside class="lg:col-span-3">
+        <div class="sticky top-28 space-y-4">
+          
+          <!-- Quick Status & Navigation Card -->
+          <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-sm">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+              <span class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-uqu-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg>
+                Curriculum Index
+              </span>
+              <span class="text-[11px] font-semibold text-uqu-700 bg-uqu-50 px-2 py-0.5 rounded-full">6 Modules</span>
+            </div>
+
+            <nav class="mt-3 space-y-1 text-xs" id="tableOfContents">
+              <a href="#mod1" class="toc-link block px-2.5 py-1.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-uqu-800 transition font-medium">
+                1. Foundations &amp; Pop Health
+              </a>
+              <a href="#mod2" class="toc-link block px-2.5 py-1.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-uqu-800 transition font-medium">
+                2. Assessment &amp; Diagnosis
+              </a>
+              <a href="#mod3" class="toc-link block px-2.5 py-1.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-uqu-800 transition font-medium">
+                3. PHC &amp; Saudi Vision 2030
+              </a>
+              <a href="#mod4" class="toc-link block px-2.5 py-1.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-uqu-800 transition font-medium">
+                4. Family as Nursing Client
+              </a>
+              <a href="#mod5" class="toc-link block px-2.5 py-1.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-uqu-800 transition font-medium">
+                5. School Health Nursing
+              </a>
+              <a href="#mod6" class="toc-link block px-2.5 py-1.5 rounded-lg text-slate-600 hover:bg-slate-100 hover:text-uqu-800 transition font-medium">
+                6. Promotion &amp; Mobilization
+              </a>
+            </nav>
+          </div>
+
+          <!-- Highlight Summary Card -->
+          <div class="bg-gradient-to-br from-uqu-50 to-emerald-100/50 rounded-2xl p-4 border border-emerald-200">
+            <h5 class="text-xs font-bold text-uqu-900 flex items-center justify-between">
+              <span>Interactive Highlighter</span>
+              <span id="savedHighlightCount" class="text-[10px] bg-white text-emerald-800 px-2 py-0.5 rounded-full border border-emerald-300">Active</span>
+            </h5>
+            <p class="text-[11px] text-emerald-800 mt-1 leading-normal">
+              Select any text in the summary cards to highlight in real-time. Use the swatch palette above to switch fluorescent ink.
+            </p>
+          </div>
+
+          <!-- Laser Pointer Help Pill -->
+          <div class="bg-slate-800 text-white rounded-2xl p-4 shadow-sm text-xs">
+            <div class="flex items-center gap-2 text-gold-400 font-bold mb-1">
+              <svg class="w-4 h-4 text-red-400 animate-pulse" fill="currentColor" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8"/></svg>
+              Presentation Laser Role
+            </div>
+            <p class="text-slate-300 text-[11px] leading-relaxed">
+              Toggle the Laser button in the top bar to project a luminous cursor pointer with light tail for group study or lecturing.
+            </p>
+          </div>
+
+        </div>
+      </aside>
+
+      <!-- Right Column: Full Study Summary Content Blocks -->
+      <div class="lg:col-span-9 space-y-10" id="studyContentContainer">
+
+        <!-- ========================================== -->
+        <!-- MODULE 1: FOUNDATIONS OF C/PHN & POP HEALTH -->
+        <!-- ========================================== -->
+        <section id="mod1" class="lecture-module bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm transition-all" data-lecture="l1">
+          
+          <!-- Module Header -->
+          <div class="border-b border-slate-200 pb-5 mb-6">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+              <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-100 text-uqu-800 border border-emerald-200">
+                LECTURE 1 &bull; FOUNDATIONS OF COMMUNITY HEALTH NURSING
+              </span>
+              <div class="flex items-center gap-2 text-xs text-slate-500 font-mono">
+                <span class="bg-slate-100 px-2 py-0.5 rounded border border-slate-200">Slides 1–38</span>
+                <span>Dr. Muna Alharbi (1448H-2026)</span>
+              </div>
+            </div>
+            <h2 class="text-2xl font-bold text-slate-900">Foundations of Community &amp; Public Health Nursing</h2>
+            <p class="text-xs text-slate-500 mt-1">Key primary references: Rector (2022) 10th Ed. &amp; Savage (2020) 2nd Ed.</p>
+          </div>
+
+          <div class="space-y-6 text-sm leading-relaxed text-slate-700">
+            
+            <!-- Learning Objectives Box -->
+            <div class="bg-slate-50 p-4 rounded-2xl border-l-4 border-uqu-700">
+              <h3 class="font-bold text-uqu-900 text-xs uppercase tracking-wider mb-2">Learning Objectives [Slide 2]</h3>
+              <ul class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs list-disc list-inside text-slate-700">
+                <li>Differentiate community, population, and aggregate.</li>
+                <li>Explain social, environmental, and economic determinants.</li>
+                <li>Interpret selected population health indicators.</li>
+                <li>Differentiate health promotion from primary, secondary, and tertiary prevention.</li>
+                <li>Explain population-focused principles &amp; nursing roles.</li>
+                <li>Apply CHN concepts to selected Saudi situations.</li>
+              </ul>
+            </div>
+
+            <!-- Core Definitions: Community, Population, Aggregate -->
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900">1. Concepts of Community, Population, and Aggregate</h3>
+                <span class="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded">[Slides 3–7 &bull; Rector p. 82–90]</span>
+              </div>
+              <p class="mt-2 text-slate-600">
+                A thorough understanding of community health nursing begins with distinguishing the core structural units of client focus:
+              </p>
+
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3">
+                <div class="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200">
+                  <div class="font-bold text-uqu-800 text-sm mb-1">Community</div>
+                  <p class="text-xs text-slate-600">
+                    A collection of people who <strong>share some important feature of their lives</strong>, interact, have common interests or characteristics, and have a <strong>sense of unity or belonging</strong>.
+                  </p>
+                  <p class="text-[11px] text-slate-500 mt-2">
+                    <strong>Functions:</strong> Collective sense of belonging, shared identity, values, norms, communication, and shared concerns (p. 82).
+                  </p>
+                </div>
+
+                <div class="p-4 rounded-xl bg-sky-50/70 border border-sky-200">
+                  <div class="font-bold text-sky-800 text-sm mb-1">Population</div>
+                  <p class="text-xs text-slate-600">
+                    All of the people occupying an area or all of those who share one or more characteristics. In contrast to community, people in a population <strong>do NOT necessarily interact or share a sense of belonging</strong>.
+                  </p>
+                  <p class="text-[11px] text-slate-500 mt-2">
+                    <strong>Scope:</strong> Defined geographically (city population) or by common qualities/demographics (elderly adults) (p. 90).
+                  </p>
+                </div>
+
+                <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-200">
+                  <div class="font-bold text-amber-800 text-sm mb-1">Aggregate</div>
+                  <p class="text-xs text-slate-600">
+                    A mass or grouping of distinct individuals who are <strong>considered as a whole and who are loosely associated</strong> with one another. A broader term including many different-sized groups.
+                  </p>
+                  <p class="text-[11px] text-slate-500 mt-2">
+                    <strong>Crucial Principle:</strong> <em>Both communities and populations are types of aggregates</em> (e.g. pregnant teens, diabetics) (p. 90).
+                  </p>
+                </div>
+              </div>
+
+              <!-- Types of Communities -->
+              <div class="mt-4 p-4 bg-slate-50 rounded-xl border border-slate-200">
+                <div class="text-xs font-bold text-slate-800 uppercase tracking-wide mb-2">Three Types of Communities [Slide 4 &bull; Rector p. 84–89]:</div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                  <div class="bg-white p-2.5 rounded-lg border border-slate-200">
+                    <span class="font-bold text-uqu-700 block">1. Geographic</span>
+                    Defined by physical/geographic boundaries (e.g., a city, town, or neighborhood).
+                  </div>
+                  <div class="bg-white p-2.5 rounded-lg border border-slate-200">
+                    <span class="font-bold text-uqu-700 block">2. Common-Interest</span>
+                    Bound by common interests, goals, or identity (e.g., mosque congregation, professional nursing organization, women with mastectomies).
+                  </div>
+                  <div class="bg-white p-2.5 rounded-lg border border-slate-200">
+                    <span class="font-bold text-uqu-700 block">3. Community of Solution</span>
+                    Group of people who come together specifically to solve a common problem affecting all of them (e.g., addressing water pollution).
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- WHO Health Definition & Wellness Continuum -->
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900">2. Definition of Health &amp; The Wellness-Illness Continuum</h3>
+                <span class="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded">[Slides 8–11 &bull; Rector p. 92–95]</span>
+              </div>
+              <div class="mt-2 p-4 bg-emerald-50 rounded-xl border-l-4 border-emerald-600">
+                <strong class="text-emerald-900">World Health Organization (WHO) Definition:</strong>
+                <p class="italic text-emerald-800 text-xs sm:text-sm mt-1">
+                  "Health is defined as a state of complete physical, mental, and social wellbeing and not merely the absence of disease or infirmity." (p. 92, 2022)
+                </p>
+              </div>
+
+              <div class="mt-3 bg-white p-4 rounded-xl border border-slate-200">
+                <p class="text-xs text-slate-600 mb-2">
+                  <strong>The Dynamic Health Continuum (Figure 1-4):</strong> A person's relative health is constantly in flux, ranging from <em>Total Disability or Death</em> at one extreme to <em>Optimal Health</em> at the other.
+                </p>
+                <div class="flex items-center justify-between bg-gradient-to-r from-red-100 via-yellow-100 to-emerald-100 p-3 rounded-lg text-xs font-semibold text-slate-700">
+                  <span>Total Disability / Death</span>
+                  <span class="text-slate-500 font-normal">Increasing Level of Illness &larr; &rarr; Increasing Level of Wellness</span>
+                  <span>Optimal Health</span>
+                </div>
+                <div class="mt-2 text-xs text-slate-600">
+                  <strong>Paradigm Shift:</strong> Traditionally, healthcare focused exclusively on acute/chronic disease treatment at the illness end. Modern CHN shifts focus toward the <strong>wellness end</strong> of the continuum, aligned with Healthy People 2030 and Saudi Vision 2030.
+                </div>
+              </div>
+            </div>
+
+            <!-- Social-Ecological Model -->
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900">3. The Social-Ecological Model</h3>
+                <span class="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded">[Slide 13 &bull; Savage p. 5–9]</span>
+              </div>
+              <p class="text-xs text-slate-600 mt-1">Adapted by CTLT from Dahlgren &amp; Whitehead (1991) and Worthman (1999):</p>
+              
+              <div class="grid grid-cols-1 md:grid-cols-4 gap-2 mt-3 text-center text-xs">
+                <div class="p-3 bg-blue-50 rounded-xl border border-blue-200">
+                  <div class="font-bold text-blue-900">1. Individual</div>
+                  <div class="text-[11px] text-blue-700">Biological, genetics, age, knowledge, personal attitudes</div>
+                </div>
+                <div class="p-3 bg-blue-100 rounded-xl border border-blue-300">
+                  <div class="font-bold text-blue-950">2. Relationship</div>
+                  <div class="text-[11px] text-blue-800">Family, peers, partners, immediate social circle</div>
+                </div>
+                <div class="p-3 bg-blue-200 rounded-xl border border-blue-400">
+                  <div class="font-bold text-blue-950">3. Community</div>
+                  <div class="text-[11px] text-blue-900">Schools, workplaces, neighborhoods, physical infrastructure</div>
+                </div>
+                <div class="p-3 bg-blue-600 text-white rounded-xl shadow-sm">
+                  <div class="font-bold">4. Societal</div>
+                  <div class="text-[11px] text-blue-100">Broad cultural norms, health policies, legal system, economy</div>
+                </div>
+              </div>
+
+              <div class="mt-3 p-3.5 bg-slate-50 rounded-xl border border-slate-200 text-xs">
+                <span class="font-bold text-slate-800 block mb-1">Four Core Model Assumptions:</span>
+                <ol class="list-decimal list-inside space-y-1 text-slate-600">
+                  <li>There are multiple determinants of health.</li>
+                  <li>A population and environmental approach is critical.</li>
+                  <li>Linkages and relationships among the levels are essential.</li>
+                  <li>Multiple strategies across multiple sectors are mandatory to achieve outcomes. <em>Communities with fewer resources &amp; inadequate infrastructure face significantly elevated disease risks.</em></li>
+                </ol>
+              </div>
+            </div>
+
+            <!-- Health Indicators & Saudi Statistics -->
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900">4. Population Health Indicators &amp; Saudi MOH 2025 Report</h3>
+                <span class="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded">[Slides 14–16 &bull; Rector p. 99–100 &bull; MOH 2025]</span>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+                <div class="bg-white p-4 rounded-xl border border-slate-200">
+                  <div class="font-bold text-slate-800 text-xs uppercase mb-2">Leading Health Indicators (LHIs)</div>
+                  <ul class="text-xs space-y-1.5 text-slate-600">
+                    <li><strong>Healthy People 2020:</strong> 26 objectives/indicators arranged under 12 general topic areas.</li>
+                    <li><strong>Healthy People 2030:</strong> 18 proposed topic areas with 34 prioritized health measures.</li>
+                    <li><strong>Topic Areas:</strong> Access to health services, preventive services, injury, environmental quality, maternal/infant/child health, mental health, obesity, oral health, tobacco, substance abuse, social determinants, social capital, determinants of health equity.</li>
+                  </ul>
+                </div>
+
+                <div class="bg-gradient-to-br from-uqu-50 to-emerald-100/70 p-4 rounded-xl border border-uqu-600">
+                  <div class="font-bold text-uqu-900 text-xs uppercase mb-2 flex items-center justify-between">
+                    <span>Saudi MOH 2025 Health Sector Annual Report</span>
+                    <span class="text-[10px] bg-uqu-700 text-white px-2 py-0.5 rounded font-mono">Official</span>
+                  </div>
+                  <div class="grid grid-cols-2 gap-2 text-xs font-semibold text-slate-800">
+                    <div class="bg-white p-2 rounded-lg border border-emerald-200">
+                      <span class="text-slate-500 text-[10px] block">Life Expectancy</span>
+                      <span class="text-uqu-700 text-base font-bold">79.7 Years</span>
+                    </div>
+                    <div class="bg-white p-2 rounded-lg border border-emerald-200">
+                      <span class="text-slate-500 text-[10px] block">Infectious Diseases</span>
+                      <span class="text-emerald-700 text-base font-bold">&darr; 50% Deaths</span>
+                    </div>
+                    <div class="bg-white p-2 rounded-lg border border-emerald-200">
+                      <span class="text-slate-500 text-[10px] block">Noncommunicable (NCD)</span>
+                      <span class="text-indigo-700 text-base font-bold">&darr; 40% Deaths</span>
+                    </div>
+                    <div class="bg-white p-2 rounded-lg border border-emerald-200">
+                      <span class="text-slate-500 text-[10px] block">Unintentional Injuries</span>
+                      <span class="text-amber-700 text-base font-bold">&darr; 30% Deaths</span>
+                    </div>
+                    <div class="bg-white p-2 rounded-lg border border-emerald-200">
+                      <span class="text-slate-500 text-[10px] block">Road-Traffic Fatalities</span>
+                      <span class="text-red-700 text-base font-bold">&darr; 60% Fatalities</span>
+                    </div>
+                    <div class="bg-white p-2 rounded-lg border border-emerald-200">
+                      <span class="text-slate-500 text-[10px] block">WHO Healthy Cities</span>
+                      <span class="text-uqu-800 text-base font-bold">16 Saudi Cities</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- C/PHN Definition, Client Focus Curve & 8 Principles -->
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900">5. Community/Public Health Nursing Focus &amp; 8 Core Concepts</h3>
+                <span class="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded">[Slides 20–28 &bull; Rector p. 116–131]</span>
+              </div>
+              <p class="text-xs text-slate-600 mt-2">
+                <strong>Definition:</strong> C/PHN combines nursing science with public health science to formulate a <em>community-based</em> and <em>population-focused</em> practice.
+              </p>
+
+              <!-- Client Focus Graph Explanation -->
+              <div class="mt-3 p-3.5 bg-slate-100 rounded-xl text-xs">
+                <span class="font-bold text-slate-800 block mb-1">Focus Comparison (Basic Bedside vs. C/PHN) [Slide 22]:</span>
+                <p class="text-slate-600">
+                  Basic hospital nursing allocates ~100% of its initial focus to individuals, declining sharply when moving through families, groups, and reaching 0% for populations. In contrast, <strong>Community/Public Health Nursing allocates its highest focus (~100%) to aggregates and populations</strong>.
+                </p>
+              </div>
+
+              <!-- 8 Core Concepts Grid -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5 mt-3 text-xs">
+                <div class="bg-white p-3 rounded-lg border border-slate-200">
+                  <span class="font-bold text-uqu-700 block">1. Population Focused</span>
+                  Nurses do not view individuals separately, but in the context of the community.
+                </div>
+                <div class="bg-white p-3 rounded-lg border border-slate-200">
+                  <span class="font-bold text-uqu-700 block">2. Greatest Good</span>
+                  Services provided to multiple/overlapping groups (e.g. flu vaccine campaigns for all).
+                </div>
+                <div class="bg-white p-3 rounded-lg border border-slate-200">
+                  <span class="font-bold text-uqu-700 block">3. Equal Partners</span>
+                  Involve community at every stage from planning to evaluation to build autonomy.
+                </div>
+                <div class="bg-white p-3 rounded-lg border border-slate-200">
+                  <span class="font-bold text-uqu-700 block">4. Primary Prevention</span>
+                  First-order priority; promotion of healthy habits prioritized over rehabilitation.
+                </div>
+                <div class="bg-white p-3 rounded-lg border border-slate-200">
+                  <span class="font-bold text-uqu-700 block">5. Thriving Conditions</span>
+                  Advocacy and policy changes to build environments where populations thrive.
+                </div>
+                <div class="bg-white p-3 rounded-lg border border-slate-200">
+                  <span class="font-bold text-uqu-700 block">6. Actively Reaching Out</span>
+                  Do not wait for clients in clinics; actively seek populations in rural/home areas.
+                </div>
+                <div class="bg-white p-3 rounded-lg border border-slate-200">
+                  <span class="font-bold text-uqu-700 block">7. Optimal Resources</span>
+                  Promote cost-effective, efficient long-term community health strategies.
+                </div>
+                <div class="bg-white p-3 rounded-lg border border-slate-200">
+                  <span class="font-bold text-uqu-700 block">8. Interprofessional</span>
+                  Cross-sector collaboration to prevent service duplication and care fragmentation.
+                </div>
+              </div>
+            </div>
+
+            <!-- Roles & Settings of CHN -->
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900">6. Roles and Settings of Community Health Nurses</h3>
+                <span class="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded">[Slides 32–36 &bull; Rector p. 154–186]</span>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3 text-xs">
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                  <span class="font-bold text-slate-800 text-xs uppercase block mb-2">7 Roles of the Community Health Nurse</span>
+                  <div class="flex flex-wrap gap-1.5">
+                    <span class="px-2 py-1 bg-white border rounded font-semibold text-uqu-800">1. Clinician</span>
+                    <span class="px-2 py-1 bg-white border rounded font-semibold text-uqu-800">2. Educator</span>
+                    <span class="px-2 py-1 bg-white border rounded font-semibold text-uqu-800">3. Advocate</span>
+                    <span class="px-2 py-1 bg-white border rounded font-semibold text-uqu-800">4. Manager</span>
+                    <span class="px-2 py-1 bg-white border rounded font-semibold text-uqu-800">5. Collaborator</span>
+                    <span class="px-2 py-1 bg-white border rounded font-semibold text-uqu-800">6. Leader</span>
+                    <span class="px-2 py-1 bg-white border rounded font-semibold text-uqu-800">7. Researcher</span>
+                  </div>
+                </div>
+
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                  <span class="font-bold text-slate-800 text-xs uppercase block mb-2">7 Practice Settings</span>
+                  <ol class="list-decimal list-inside space-y-1 text-slate-600">
+                    <li><strong>Homes:</strong> Observe client in family/environmental context.</li>
+                    <li><strong>Ambulatory Settings:</strong> Day/evening clinics without overnight stay.</li>
+                    <li><strong>Schools:</strong> Preschool through specialized centers.</li>
+                    <li><strong>Occupational Health:</strong> Worksite safety and industry wellness.</li>
+                    <li><strong>Residential Institutions:</strong> Halfway houses, hospices.</li>
+                    <li><strong>Faith Communities:</strong> Mosques, spiritual care centers.</li>
+                    <li><strong>Community at Large:</strong> Total aggregate, not confined to one building.</li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- MODULE 2: ASSESSMENT, DIAGNOSIS, PLANNING  -->
+        <!-- ========================================== -->
+        <section id="mod2" class="lecture-module bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm transition-all" data-lecture="l2">
+          
+          <div class="border-b border-slate-200 pb-5 mb-6">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+              <span class="text-xs font-bold px-3 py-1 rounded-full bg-blue-100 text-blue-900 border border-blue-200">
+                LECTURE 2 &bull; COMMUNITY ASSESSMENT, DIAGNOSIS, PLANNING &amp; INTERVENTION
+              </span>
+              <div class="flex items-center gap-2 text-xs text-slate-500 font-mono">
+                <span class="bg-slate-100 px-2 py-0.5 rounded border border-slate-200">Slides 39–81</span>
+                <span>Ms. Nawal Almaheyani (1448-2026)</span>
+              </div>
+            </div>
+            <h2 class="text-2xl font-bold text-slate-900">Community Assessment, Diagnosis &amp; Health Planning</h2>
+            <p class="text-xs text-slate-500 mt-1">Primary sources: Savage (2020) p. 77–123 &amp; Rector (2022) p. 1270–1333</p>
+          </div>
+
+          <div class="space-y-6 text-sm leading-relaxed text-slate-700">
+            
+            <!-- Assessment Definition & Purpose -->
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900">1. Community Health Assessment Definition &amp; Purpose</h3>
+                <span class="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded">[Slide 42–43 &bull; Savage p. 77–79]</span>
+              </div>
+              <p class="text-slate-600 mt-2">
+                A community health assessment is a <strong>strategic plan that describes the health of a community</strong> by collecting, analyzing, and using data to:
+              </p>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2 text-center text-xs">
+                <div class="p-2.5 bg-blue-50 rounded-lg font-semibold text-blue-900">1. Educate &amp; Mobilize</div>
+                <div class="p-2.5 bg-blue-50 rounded-lg font-semibold text-blue-900">2. Develop Priorities</div>
+                <div class="p-2.5 bg-blue-50 rounded-lg font-semibold text-blue-900">3. Obtain Resources</div>
+                <div class="p-2.5 bg-blue-50 rounded-lg font-semibold text-blue-900">4. Plan Action Programs</div>
+              </div>
+              <p class="text-xs text-slate-500 mt-2 italic">
+                *Provides baseline data (e.g. maternal &amp; infant health status) needed before allocating community resources.
+              </p>
+            </div>
+
+            <!-- 6 Types of Community Assessments -->
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900">2. Six Types of Community Health Assessments</h3>
+                <span class="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded">[Slides 44–50 &bull; Savage p. 79–82]</span>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3 text-xs">
+                <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
+                  <div class="font-bold text-slate-800 mb-1">1. Comprehensive Assessment</div>
+                  Collection of data about populations, assets (health department capacity), unmet needs, health disparities, and action opportunities.
+                </div>
+                <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
+                  <div class="font-bold text-slate-800 mb-1">2. Population-Focused Assessment</div>
+                  Focuses on a specific group (e.g. pregnant women, immigrants, elderly, or children with developmental disabilities).
+                </div>
+                <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
+                  <div class="font-bold text-slate-800 mb-1">3. Setting-Specific Assessment</div>
+                  Assesses organization strengths/weaknesses (e.g., worksite occupational hazards, school health policies, or building air quality).
+                </div>
+                <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
+                  <div class="font-bold text-slate-800 mb-1">4. Problem- or Health-Issue-Based Assessment</div>
+                  Targeted analysis using web toolkits on a single issue (e.g., assessing community obesity environmental determinants).
+                </div>
+                <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
+                  <div class="font-bold text-slate-800 mb-1">5. Health Impact Assessments (HIA)</div>
+                  Evaluates potential health effects of large societal projects/policies before adoption (e.g., municipal zoning laws promoting walking trails).
+                </div>
+                <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
+                  <div class="font-bold text-slate-800 mb-1">6. Rapid Needs Assessment</div>
+                  Straightforward post-disaster data collection conducted within the <strong>first week</strong>. First used internationally in the 1960s.
+                </div>
+              </div>
+            </div>
+
+            <!-- 5 Assessment Methods & Data Sources -->
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900">3. Assessment Methods &amp; Data Sources</h3>
+                <span class="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded">[Slides 51–64 &bull; Rector p. 1298–1305]</span>
+              </div>
+
+              <!-- Methods Table -->
+              <div class="overflow-x-auto mt-3">
+                <table class="w-full text-xs text-left border-collapse">
+                  <thead>
+                    <tr class="bg-slate-100 border-b border-slate-200 font-bold text-slate-700">
+                      <th class="p-2">Method</th>
+                      <th class="p-2">Description &amp; Purpose</th>
+                      <th class="p-2">Key Features / Advantages</th>
+                      <th class="p-2">Limitations / Examples</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-200 text-slate-600">
+                    <tr>
+                      <td class="p-2 font-bold text-slate-800">1. Surveys</td>
+                      <td class="p-2">Predetermined questions via questionnaires, phone, or interviews.</td>
+                      <td class="p-2">Cost-effective; samples large populations; allows inferences.</td>
+                      <td class="p-2">Relies on self-report accuracy.</td>
+                    </tr>
+                    <tr>
+                      <td class="p-2 font-bold text-slate-800">2. Descriptive Epidemiology</td>
+                      <td class="p-2">Examines amount and distribution of health events.</td>
+                      <td class="p-2">Assesses: <strong>Person</strong> (Who?), <strong>Place</strong> (Where?), and <strong>Time</strong> (When?).</td>
+                      <td class="p-2">Identifies high-risk groups for targeted programs.</td>
+                    </tr>
+                    <tr>
+                      <td class="p-2 font-bold text-slate-800">3. GIS Analysis</td>
+                      <td class="p-2">Spatial mapping combining medical geography and epidemiology.</td>
+                      <td class="p-2">Visualizes disparities, resource deficits, environmental exposures.</td>
+                      <td class="p-2">e.g. New Jersey infant outcomes &amp; Worcester pollution/heart attacks.</td>
+                    </tr>
+                    <tr>
+                      <td class="p-2 font-bold text-slate-800">4. Community Forums</td>
+                      <td class="p-2">Town hall meetings in local halls/gyms to obtain qualitative opinions.</td>
+                      <td class="p-2">Relatively inexpensive; rapid public feedback.</td>
+                      <td class="p-2 text-red-600"><strong>Drawback:</strong> Only the most vocal/vested voices are heard.</td>
+                    </tr>
+                    <tr>
+                      <td class="p-2 font-bold text-slate-800">5. Focus Groups</td>
+                      <td class="p-2">Most common method: 6 to 8 homogeneous participants; lasts 1–2 hours.</td>
+                      <td class="p-2">Unstructured open-ended questions explore root beliefs.</td>
+                      <td class="p-2">e.g., focus group of young mothers or retired businessmen.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Saudi Specific Data Sources -->
+              <div class="mt-4 p-4 bg-emerald-50 rounded-2xl border border-emerald-200">
+                <span class="text-xs font-bold text-uqu-900 uppercase block mb-2">Primary, Secondary &amp; Saudi Data Sources [Slides 60–63]:</span>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 text-xs">
+                  <div class="bg-white p-2.5 rounded-lg border border-emerald-200">
+                    <strong>Primary vs. Secondary:</strong> Primary = directly talking to people/records; Secondary = records created during routine work (needs validation).
+                  </div>
+                  <div class="bg-white p-2.5 rounded-lg border border-emerald-200">
+                    <strong>Saudi National Sources:</strong> GASTAT (stats.gov.sa), MOH (moh.gov.sa), Health Data Platform HDP (hdp.moh.gov.sa), National Surveys, Saudi Census.
+                  </div>
+                  <div class="bg-white p-2.5 rounded-lg border border-emerald-200">
+                    <strong>Local Regional Sources:</strong> Regional Health Directorates, PHCs, Municipalities (Baladiyah for sanitation/housing), Schools, Community NGOs.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Community Diagnosis (4-Part Formula) -->
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900">4. Community Diagnoses (4-Part Statement)</h3>
+                <span class="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded">[Slides 65–67 &bull; Savage p. 116–117]</span>
+              </div>
+              <p class="text-xs text-slate-600 mt-1">
+                A community diagnosis summarizes findings to direct program planning. It contains exactly four parts:
+              </p>
+              <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mt-2 text-xs">
+                <div class="p-2.5 bg-slate-100 rounded-lg font-bold text-slate-800">1. The Problem</div>
+                <div class="p-2.5 bg-slate-100 rounded-lg font-bold text-slate-800">2. The Population</div>
+                <div class="p-2.5 bg-slate-100 rounded-lg font-bold text-slate-800">3. Related To (Etiology)</div>
+                <div class="p-2.5 bg-slate-100 rounded-lg font-bold text-slate-800">4. Demonstrated By (Data)</div>
+              </div>
+            </div>
+
+            <!-- Planning, Implementation & Evaluation -->
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900">5. Health Planning, Implementation &amp; Evaluation</h3>
+                <span class="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded">[Slides 68–76 &bull; Rector p. 1316–1333]</span>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3 text-xs">
+                <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                  <div class="font-bold text-uqu-800 mb-1">Health Planning (4 Stages)</div>
+                  1. Priority setting.<br>
+                  2. Establishing goals and objectives.<br>
+                  3. Implementing health promotion plans.<br>
+                  4. Evaluating implemented programs.
+                </div>
+                <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                  <div class="font-bold text-uqu-800 mb-1">Implementation (5 Stages)</div>
+                  1. Community accepting the program.<br>
+                  2. Specifying tasks and needed resources.<br>
+                  3. Developing activity plans.<br>
+                  4. Establishing management mechanism.<br>
+                  5. Putting the plan into action.
+                </div>
+                <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                  <div class="font-bold text-uqu-800 mb-1">Evaluation Dichotomy</div>
+                  <strong>Formative:</strong> Process during intervention (e.g. rescheduling class to morning).<br>
+                  <strong>Summative:</strong> Outcome impact (e.g. factory PPE adherence +15%).
+                </div>
+              </div>
+
+              <!-- 6 Nursing Process Characteristics in CHN -->
+              <div class="mt-4 p-4 bg-slate-50 rounded-2xl border border-slate-200 text-xs">
+                <span class="font-bold text-slate-800 uppercase block mb-2">6 Characteristics of the Nursing Process in CHN [Slides 77–80]:</span>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-slate-700">
+                  <div><strong>1. Deliberative:</strong> Thoughtful, independent decision-making.</div>
+                  <div><strong>2. Adaptable:</strong> Flexible to unique aggregate situations.</div>
+                  <div><strong>3. Cyclical:</strong> Continuous loop of assessment &rarr; feedback.</div>
+                  <div><strong>4. Client-Focused:</strong> Designed explicitly for population health.</div>
+                  <div><strong>5. Interactive:</strong> Ongoing bidirectional communication.</div>
+                  <div><strong>6. Need-Oriented:</strong> From disease treatment to promotion.</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- MODULE 3: PRIMARY HEALTH CARE & SAUDI 2030 -->
+        <!-- ========================================== -->
+        <section id="mod3" class="lecture-module bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm transition-all" data-lecture="l3">
+          
+          <div class="border-b border-slate-200 pb-5 mb-6">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+              <span class="text-xs font-bold px-3 py-1 rounded-full bg-emerald-100 text-uqu-800 border border-emerald-200">
+                LECTURE 3 &bull; PRIMARY HEALTH CARE (PHC) &amp; SAUDI HEALTH TRANSFORMATION
+              </span>
+              <div class="flex items-center gap-2 text-xs text-slate-500 font-mono">
+                <span class="bg-slate-100 px-2 py-0.5 rounded border border-slate-200">Slides 82–124</span>
+                <span>Dr. Aishah Al Harbi (1448H-2026)</span>
+              </div>
+            </div>
+            <h2 class="text-2xl font-bold text-slate-900">Primary Health Care &amp; Saudi Vision 2030 Modern Care Model</h2>
+            <p class="text-xs text-slate-500 mt-1">WHO Alma-Ata Declaration, Savage (2020) p. 374–383 &amp; Saudi MOH Guidelines</p>
+          </div>
+
+          <div class="space-y-6 text-sm leading-relaxed text-slate-700">
+            
+            <!-- WHO PHC Definition & 4 Principles -->
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900">1. Definition and 4 Principles of PHC</h3>
+                <span class="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded">[Slides 86–88 &bull; WHO &amp; Savage p. 374]</span>
+              </div>
+              <p class="mt-2 text-slate-600">
+                <strong>WHO Alma-Ata Definition:</strong> Essential health care based on practical, scientifically sound, and socially acceptable methods and technology, universally accessible through full community participation, at an affordable cost in a spirit of self-reliance.
+              </p>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5 mt-3 text-xs">
+                <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200">
+                  <span class="font-bold text-uqu-800 block">1. Community Participation</span>
+                  Voluntary involvement where members actively identify needs, plan, organize, and implement services.
+                </div>
+                <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200">
+                  <span class="font-bold text-uqu-800 block">2. Intersectoral Coordination</span>
+                  Involvement of education, housing, water, transport, public, and private sectors.
+                </div>
+                <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200">
+                  <span class="font-bold text-uqu-800 block">3. Appropriate Technologies</span>
+                  Accessible, scientifically sound, locally adaptable, and acceptable to staff/clients.
+                </div>
+                <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-200">
+                  <span class="font-bold text-uqu-800 block">4. Support Mechanisms</span>
+                  Adequately trained, well-distributed healthcare workforce with local &amp; referral backup.
+                </div>
+              </div>
+
+              <!-- 8 Basic Alma-Ata Components -->
+              <div class="mt-4 p-4 bg-slate-50 rounded-2xl border border-slate-200">
+                <span class="font-bold text-slate-800 text-xs uppercase block mb-2">Eight Basic Components of PHC [Slide 89]:</span>
+                <ol class="grid grid-cols-1 md:grid-cols-2 gap-1.5 text-xs list-decimal list-inside text-slate-700">
+                  <li>Health education on prevailing health problems &amp; prevention/control.</li>
+                  <li>Promotion of food supply and proper nutrition.</li>
+                  <li>Safe water supply and basic sanitation.</li>
+                  <li>Maternal and child health care, including family planning.</li>
+                  <li>Immunization against major infectious diseases.</li>
+                  <li>Prevention and control of locally endemic diseases.</li>
+                  <li>Appropriate treatment of common diseases and injuries.</li>
+                  <li>Provision of essential drugs.</li>
+                </ol>
+              </div>
+            </div>
+
+            <!-- Immunization Science & Saudi National Schedule -->
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900">2. Immunization Science &amp; Saudi National Schedule</h3>
+                <span class="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded">[Slides 93–100 &bull; Savage p. 380–381]</span>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3 text-xs">
+                <!-- Vaccine Types -->
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                  <span class="font-bold text-slate-800 block mb-2 uppercase">Vaccine Types:</span>
+                  <ul class="space-y-1.5 text-slate-600">
+                    <li><strong>Live-Attenuated:</strong> Weakened live germ; mimics natural infection, produces strong long-lasting response (e.g., BCG, MMR, Varicella, OPV, Rotavirus).</li>
+                    <li><strong>Inactivated:</strong> Killed version; protection weaker; requires boosters (e.g., HepA, Inactivated Polio IPV, Influenza, Rabies).</li>
+                    <li><strong>Subunit / Conjugate:</strong> Specific antigen fragments (protein/sugar); highly targeted strong response (e.g., Hib, PCV, HepB, HPV).</li>
+                    <li><strong>Toxoid:</strong> Inactivated bacterial toxin; teaches immune system to fight toxin (e.g., Diphtheria, Tetanus).</li>
+                  </ul>
+                </div>
+
+                <!-- Administration Routes -->
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                  <span class="font-bold text-slate-800 block mb-2 uppercase">Administration Routes:</span>
+                  <ul class="space-y-1.5 text-slate-600">
+                    <li><strong class="text-uqu-800">ID (Intradermal):</strong> BCG vaccine (at birth).</li>
+                    <li><strong class="text-uqu-800">IM (Intramuscular):</strong> HepB, DTaP, Hib, PCV, IPV, MCV4, HepA, HPV, Tdap.</li>
+                    <li><strong class="text-uqu-800">SC (Subcutaneous):</strong> IPV, Measles, Varicella, MMR.</li>
+                    <li><strong class="text-uqu-800">Oral:</strong> Rotavirus (RV), Oral Polio Vaccine (OPV).</li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Saudi Schedule Summary -->
+              <div class="mt-3 p-4 bg-emerald-50/80 rounded-2xl border border-emerald-200 text-xs">
+                <span class="font-bold text-uqu-900 block mb-1">Saudi National Schedule Highlights [Slide 100]:</span>
+                <p class="text-slate-700 leading-relaxed">
+                  Birth: BCG &amp; HepB &bull; 2, 4, 6 Months: HepB, IPV, DTaP, Hib, PCV, RV &bull; 9 Months: Measles &amp; MCV4 &bull; 12 Months: MMR, PCV, OPV, MCV4 &bull; 18 Months: DTaP, Hib, OPV, MMR, Varicella, HepA &bull; 24 Months: HepA &bull; Primary School Entry (6 yrs): OPV, DTaP, MMR, Varicella &bull; Grade 4 (girls): HPV &bull; Grade 10 / 16-18 yrs: Tdap &amp; MCV4 &bull; Special groups: Seasonal flu, Hajj pilgrims, high-risk travelers.
+                </p>
+              </div>
+            </div>
+
+            <!-- Tertiary Care & Case Management -->
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900">3. Secondary, Tertiary Care &amp; Case Management</h3>
+                <span class="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded">[Slides 101–107 &bull; Savage p. 381–383]</span>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3 text-xs">
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200">
+                  <span class="font-bold text-uqu-800 block mb-1">Secondary Prevention in PHC</span>
+                  Focuses on identifying individuals with <em>subclinical disease</em> and initiating prompt treatment via screening (BP screening, mammography, cancer screening) to reduce morbidity and mortality.
+                </div>
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200">
+                  <span class="font-bold text-uqu-800 block mb-1">Tertiary Prevention &amp; Case Management</span>
+                  Minimizes complications and sequelae of Noncommunicable Diseases (NCDs). Case manager coordinates options to reduce duplication, control costs, and improve holistic patient outcomes.
+                </div>
+              </div>
+            </div>
+
+            <!-- Saudi Vision 2030 Modern Care Model -->
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900">4. Saudi Vision 2030 Healthcare Sector Transformation</h3>
+                <span class="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded">[Slides 109–121 &bull; Saudi MOH]</span>
+              </div>
+              <p class="text-xs text-slate-600 mt-2">
+                The <strong>Modern Healthcare Model</strong> shifts care from curative facilities to comprehensive, person-centered prevention across <strong>six integrated care systems</strong>:
+              </p>
+
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5 mt-3 text-xs">
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <span class="font-bold text-uqu-700 block">1. Preventive Care</span>
+                  Healthy lifestyle adoption and early community risk screening.
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <span class="font-bold text-uqu-700 block">2. Urgent Care</span>
+                  Emergency access at the right time and right facility.
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <span class="font-bold text-uqu-700 block">3. Elective Care</span>
+                  Optimizing scheduled surgeries with full pre- and post-op support.
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <span class="font-bold text-uqu-700 block">4. Safe Childbirth</span>
+                  Continuous support from pre-marital testing through postnatal care.
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <span class="font-bold text-uqu-700 block">5. Chronic Disease Care</span>
+                  Proactive management pathways to avert complications.
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <span class="font-bold text-uqu-700 block">6. Palliative Care</span>
+                  Compassionate support for terminal illness and grieving families.
+                </div>
+              </div>
+
+              <!-- 4 Triaging Customer Journeys in Saudi PHC -->
+              <div class="mt-3 p-4 bg-slate-50 rounded-2xl border border-slate-200 text-xs">
+                <span class="font-bold text-slate-800 uppercase block mb-1">Four Customer Triaging Pathways in Saudi PHCs [Slide 116–120]:</span>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">
+                  <div class="bg-white p-2 rounded border text-center font-semibold text-slate-700">1. Family Medicine Journey</div>
+                  <div class="bg-white p-2 rounded border text-center font-semibold text-slate-700">2. Maternity &amp; Well Baby</div>
+                  <div class="bg-white p-2 rounded border text-center font-semibold text-slate-700">3. Dentistry Journey</div>
+                  <div class="bg-white p-2 rounded border text-center font-semibold text-slate-700">4. Urgent Care Pathway</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- MODULE 4: FAMILY AS CLIENT & FAMILY NURSING -->
+        <!-- ========================================== -->
+        <section id="mod4" class="lecture-module bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm transition-all" data-lecture="l4">
+          
+          <div class="border-b border-slate-200 pb-5 mb-6">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+              <span class="text-xs font-bold px-3 py-1 rounded-full bg-amber-100 text-amber-900 border border-amber-200">
+                LECTURE 4 &bull; FAMILY AS CLIENT &amp; FAMILY HEALTH NURSING
+              </span>
+              <div class="flex items-center gap-2 text-xs text-slate-500 font-mono">
+                <span class="bg-slate-100 px-2 py-0.5 rounded border border-slate-200">Slides 125–163</span>
+                <span>Dr. Norah G. Alkhaledi (1448H-2026)</span>
+              </div>
+            </div>
+            <h2 class="text-2xl font-bold text-slate-900">Family as Client &amp; Family Health Nursing</h2>
+            <p class="text-xs text-slate-500 mt-1">Robinson et al. (2022) 7th Ed. &amp; Potter et al. (2013) 8th Ed.</p>
+          </div>
+
+          <div class="space-y-6 text-sm leading-relaxed text-slate-700">
+            
+            <!-- Definitions & Importance -->
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900">1. Family Definitions &amp; Rationales</h3>
+                <span class="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded">[Slides 127–131 &bull; Rector p. 1146–1150]</span>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3 text-xs">
+                <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
+                  <strong class="text-slate-800">Family Definition:</strong> Two or more individuals sharing a residence or living near one another; possess emotional bonds; engage in interrelated social positions, roles, and tasks; and share cultural ties and affection.
+                </div>
+                <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
+                  <strong class="text-slate-800">Family Health:</strong> A dynamic changing state of wellbeing involving biological, psychological, spiritual, sociological, and cultural factors of individual members and the whole family unit.
+                </div>
+              </div>
+              <div class="mt-2 text-xs text-slate-600 bg-amber-50/60 p-3 rounded-lg border border-amber-200">
+                <strong>Why Is the Family a Nursing Client?</strong> Family members directly influence one another's habits and health outcomes; illness alters family routines, finances, and roles; and the family serves as the primary caregiver and support system.
+              </div>
+            </div>
+
+            <!-- Family Structures, Life Cycle & 8 Health Characteristics -->
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900">2. Family Structures &amp; Characteristics of a Healthy Family</h3>
+                <span class="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded">[Slides 132–135 &bull; Rector p. 1152–1161]</span>
+              </div>
+
+              <!-- 4 Family Structures -->
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mt-3 text-xs">
+                <div class="p-2.5 bg-white rounded-lg border border-slate-200">
+                  <span class="font-bold text-slate-800 block">Nuclear Family</span>
+                  Husband, wife, and their biological or adopted children.
+                </div>
+                <div class="p-2.5 bg-white rounded-lg border border-slate-200">
+                  <span class="font-bold text-slate-800 block">Extended Family</span>
+                  Nuclear family plus blood relatives: grandparents, aunts, uncles, cousins.
+                </div>
+                <div class="p-2.5 bg-white rounded-lg border border-slate-200">
+                  <span class="font-bold text-slate-800 block">Blended Family</span>
+                  Married couple and offspring including children from prior marriages.
+                </div>
+                <div class="p-2.5 bg-white rounded-lg border border-slate-200">
+                  <span class="font-bold text-slate-800 block">Single-Parent</span>
+                  Divorce, separation, death, or choice (<strong>90% headed by single mothers</strong>).
+                </div>
+              </div>
+
+              <!-- 8 Characteristics of Healthy Families -->
+              <div class="mt-3 p-4 bg-slate-50 rounded-2xl border border-slate-200 text-xs">
+                <span class="font-bold text-slate-800 uppercase block mb-2">8 Characteristics of a Healthy Family [Slide 134]:</span>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-slate-700">
+                  <div>1. Communicate &amp; listen well.</div>
+                  <div>2. Support &amp; affirm members.</div>
+                  <div>3. Respect &amp; trust.</div>
+                  <div>4. Balanced interactions.</div>
+                  <div>5. Share leisure time.</div>
+                  <div>6. Shared responsibilities.</div>
+                  <div>7. Shared religious core.</div>
+                  <div>8. Seek help in difficulty.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3 Family Perspectives & Family-Centered Care -->
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900">3. Three Perspectives &amp; Family-Centered Care</h3>
+                <span class="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded">[Slides 136–141 &bull; Potter 2013 &bull; Robinson 2022]</span>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3 text-xs">
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200">
+                  <span class="font-bold text-uqu-700 block mb-1">A. Family as Context</span>
+                  Individual is primary client; nurse examines how family supports the individual (e.g. parents giving inhaler).
+                </div>
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200">
+                  <span class="font-bold text-uqu-700 block mb-1">B. Family as Client</span>
+                  The family unit as a whole is assessed (e.g. recurring family conflict regarding diabetic dietary routines).
+                </div>
+                <div class="bg-white p-3.5 rounded-xl border border-slate-200">
+                  <span class="font-bold text-uqu-700 block mb-1">C. Family as System</span>
+                  Dynamic feedback loops: change in one member reverberates across all members and the entire household.
+                </div>
+              </div>
+            </div>
+
+            <!-- Genograms, Ecomaps & The Al-Hassan Case -->
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900">4. Visual Assessment Tools: Genogram &amp; Ecomap</h3>
+                <span class="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded">[Slides 151–156 &bull; WHO 2016]</span>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3 text-xs">
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                  <span class="font-bold text-slate-800 block mb-1">Genogram (Pedigree Chart)</span>
+                  Visual representation of family structure across <strong>at least three generations</strong>. Uses standard symbols (squares for males, circles for females, slashed lines for deceased) to chart biological hereditary risks and relationship patterns.
+                </div>
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                  <span class="font-bold text-slate-800 block mb-1">Ecomap (Ecological Map)</span>
+                  Diagrams the family's connections with external systems (school, hospital, mosque, workplace, neighbors). Line types indicate strength: solid (strong), dotted (weak), slashed (stressful), arrows indicate energy/support flow.
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- MODULE 5: SCHOOL HEALTH NURSING            -->
+        <!-- ========================================== -->
+        <section id="mod5" class="lecture-module bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm transition-all" data-lecture="l5">
+          
+          <div class="border-b border-slate-200 pb-5 mb-6">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+              <span class="text-xs font-bold px-3 py-1 rounded-full bg-indigo-100 text-indigo-900 border border-indigo-200">
+                LECTURE 5 &bull; SCHOOL HEALTH NURSING &amp; ADOLESCENT HEALTH
+              </span>
+              <div class="flex items-center gap-2 text-xs text-slate-500 font-mono">
+                <span class="bg-slate-100 px-2 py-0.5 rounded border border-slate-200">Slides 164–194</span>
+                <span>Dr. Fawziah Almalki &amp; Ms. Sabirin (1448-2026)</span>
+              </div>
+            </div>
+            <h2 class="text-2xl font-bold text-slate-900">School Health Nursing &amp; Adolescent Health Management</h2>
+            <p class="text-xs text-slate-500 mt-1">Rector (2022) Ch. 20 (p. 1691–1777) &amp; Savage (2020) Ch. 18 (p. 451–462)</p>
+          </div>
+
+          <div class="space-y-6 text-sm leading-relaxed text-slate-700">
+            
+            <!-- Developmental Basis & Common School Problems -->
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900">1. Developmental Context &amp; Common School-Age Health Problems</h3>
+                <span class="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded">[Slides 167–174 &bull; Rector p. 1691–1728]</span>
+              </div>
+              <p class="text-xs text-slate-600 mt-2">
+                Based on <strong>Erik Erikson's developmental framework</strong>, school-age and adolescent years represent the stage of <em>Industry vs. Inferiority</em> &amp; identity development. Influence transitions from parents to peers, teachers, and schools.
+              </p>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5 mt-3 text-xs">
+                <div class="bg-white p-3 rounded-lg border border-slate-200">
+                  <span class="font-bold text-slate-800 block">1. Chronic Conditions</span>
+                  Asthma, autism, diabetes, juvenile rheumatoid arthritis, seizure disorders.
+                </div>
+                <div class="bg-white p-3 rounded-lg border border-slate-200">
+                  <span class="font-bold text-red-700 block">2. Childhood Cancers</span>
+                  Leading cause of disease death among children ages 1 to 14 years.
+                </div>
+                <div class="bg-white p-3 rounded-lg border border-slate-200">
+                  <span class="font-bold text-slate-800 block">3. Learning / Behavioral</span>
+                  ADHD, dyslexia, sequencing/memory problems, depression, anxiety, bullying.
+                </div>
+                <div class="bg-white p-3 rounded-lg border border-slate-200">
+                  <span class="font-bold text-slate-800 block">4. Economic Poverty</span>
+                  Lead poisoning, iron-deficiency anemia, high risk for accidents and injuries.
+                </div>
+                <div class="bg-white p-3 rounded-lg border border-slate-200">
+                  <span class="font-bold text-red-800 block">5. Injuries &amp; Trauma</span>
+                  <strong>Motor vehicle crashes = #1 cause of death (5–19 yrs)</strong>; #2 in (0–4 yrs). Distracted phone driving &times;3 crash risk.
+                </div>
+                <div class="bg-white p-3 rounded-lg border border-slate-200">
+                  <span class="font-bold text-slate-800 block">6. Communicable Diseases</span>
+                  Upper respiratory infections, pneumonia, TB, HIV, parasitic skin infections.
+                </div>
+                <div class="bg-white p-3 rounded-lg border border-slate-200">
+                  <span class="font-bold text-slate-800 block">7. Head Lice (Pediculosis)</span>
+                  Highest in preschool/elementary. Treat with pediculicide, <strong>retreat in 2 weeks</strong>, sanitize fomites.
+                </div>
+                <div class="bg-white p-3 rounded-lg border border-slate-200">
+                  <span class="font-bold text-slate-800 block">8. Lifestyle / Nutrition</span>
+                  Childhood obesity, physical inactivity, poor dental health/caries.
+                </div>
+              </div>
+            </div>
+
+            <!-- Adolescent Health Concerns -->
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900">2. Adolescent Health Concerns</h3>
+                <span class="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded">[Slides 175–178 &bull; Rector p. 1745–1768]</span>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3 text-xs">
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <span class="font-bold text-slate-800 block mb-1">Emotional Issues &amp; Suicide</span>
+                  <strong>Suicide is the 3rd leading cause of death</strong> in adolescents. Depression and schizophrenia may first present. Nurses provide mental health consults.
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <span class="font-bold text-slate-800 block mb-1">Substance Abuse &amp; Violence</span>
+                  Inhalant abuse (severe nervous damage/death); smoking/snorting heroin myth; media violence influences aggression. Brief provider interventions are proven effective.
+                </div>
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <span class="font-bold text-slate-800 block mb-1">Acne &amp; Eating Disorders</span>
+                  Acne affects ~80% (11–30 yrs) due to genetics, androgens, cosmetics. Eating disorders (anorexia, bulimia) treated via CBT and stimulus control.
+                </div>
+              </div>
+            </div>
+
+            <!-- WSCC Model & Roles of School Nurse -->
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900">3. The WSCC Model &amp; 10 School Nurse Responsibilities</h3>
+                <span class="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded">[Slides 183–193 &bull; Savage p. 451–452]</span>
+              </div>
+
+              <!-- 5 WSCC Tenets & 10 Components -->
+              <div class="mt-3 p-4 bg-indigo-50/70 rounded-2xl border border-indigo-200 text-xs">
+                <span class="font-bold text-indigo-950 block mb-1">Whole School, Whole Community, Whole Child (WSCC) Model:</span>
+                <p class="text-slate-700 mb-2">
+                  <strong>5 Core Tenets:</strong> Every student (1) Enters school healthy, (2) Learns in a physically/emotionally safe environment, (3) Is actively engaged, (4) Has access to personalized support from caring adults, (5) Is challenged academically.
+                </p>
+                <div class="grid grid-cols-2 sm:grid-cols-5 gap-1.5 text-[11px] font-semibold text-indigo-900">
+                  <div class="bg-white p-1.5 rounded border">1. Health Education</div>
+                  <div class="bg-white p-1.5 rounded border">2. Physical Education</div>
+                  <div class="bg-white p-1.5 rounded border">3. Nutrition Services</div>
+                  <div class="bg-white p-1.5 rounded border">4. Health Services</div>
+                  <div class="bg-white p-1.5 rounded border">5. Counseling &amp; Psych</div>
+                  <div class="bg-white p-1.5 rounded border">6. Social Climate</div>
+                  <div class="bg-white p-1.5 rounded border">7. Physical Environment</div>
+                  <div class="bg-white p-1.5 rounded border">8. Employee Wellness</div>
+                  <div class="bg-white p-1.5 rounded border">9. Family Engagement</div>
+                  <div class="bg-white p-1.5 rounded border">10. Community Involvement</div>
+                </div>
+              </div>
+
+              <!-- 10 Responsibilities -->
+              <div class="mt-3 p-4 bg-slate-50 rounded-2xl border border-slate-200 text-xs">
+                <span class="font-bold text-slate-800 uppercase block mb-2">10 Core Responsibilities of the School Nurse [Slide 193]:</span>
+                <ol class="grid grid-cols-1 md:grid-cols-2 gap-1.5 list-decimal list-inside text-slate-700">
+                  <li>Prevent illness, promote and maintain health of school community.</li>
+                  <li>Identify health-related barriers to learning.</li>
+                  <li>Care of children with special health needs.</li>
+                  <li>Provide general and emergency first aid.</li>
+                  <li>Vision, hearing, scoliosis, TB screening; BMI, BP monitoring; dental education.</li>
+                  <li>Medication administration and acute health problem assessment.</li>
+                  <li>Conduct health examinations and specialized referrals.</li>
+                  <li>Participate in emergency planning, disaster drills, and school evacuation plans.</li>
+                  <li>Train staff in CPR, infection precautions, and first aid.</li>
+                  <li>Oversee the health and wellness of school staff.</li>
+                </ol>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- MODULE 6: PROMOTION, CHANGE & MOBILIZATION -->
+        <!-- ========================================== -->
+        <section id="mod6" class="lecture-module bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm transition-all" data-lecture="l6">
+          
+          <div class="border-b border-slate-200 pb-5 mb-6">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+              <span class="text-xs font-bold px-3 py-1 rounded-full bg-purple-100 text-purple-900 border border-purple-200">
+                LECTURE 6 &bull; HEALTH PROMOTION, PLANNED CHANGE &amp; COMMUNITY MOBILIZATION
+              </span>
+              <div class="flex items-center gap-2 text-xs text-slate-500 font-mono">
+                <span class="bg-slate-100 px-2 py-0.5 rounded border border-slate-200">Slides 195–234</span>
+                <span>Dr. Manal Abo Elmagd &amp; Dr. Muna Alharbi (2026)</span>
+              </div>
+            </div>
+            <h2 class="text-2xl font-bold text-slate-900">Health Promotion, Planned Change &amp; Community Mobilization</h2>
+            <p class="text-xs text-slate-500 mt-1">Rector (2022) Ch. 11 (p. 943–957), 2018 (p. 1056–1057) &amp; Open University Framework</p>
+          </div>
+
+          <div class="space-y-6 text-sm leading-relaxed text-slate-700">
+            
+            <!-- Health Promotion vs Prevention & WHO Goals -->
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900">1. Health Promotion vs. Disease Prevention</h3>
+                <span class="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded">[Slides 197–204 &bull; Rector p. 943]</span>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3 text-xs">
+                <div class="p-3.5 bg-emerald-50 rounded-xl border border-emerald-200">
+                  <span class="font-bold text-uqu-900 block mb-1">Health Promotion</span>
+                  Behaviors that improve overall well-being and lead to a desire to meet one's full human potential. Focuses on moving people closer to optimal wellness without a pre-existing disease (e.g. teaching balanced diet, corporate fitness).
+                </div>
+                <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200">
+                  <span class="font-bold text-slate-800 block mb-1">Disease Prevention (Health Protection)</span>
+                  Behavior motivated by a desire to actively avoid illness, detect it early, or maintain functioning within the constraints of illness.
+                </div>
+              </div>
+
+              <div class="mt-3 p-3 bg-slate-100 rounded-xl text-xs">
+                <strong class="text-slate-800">WHO 3-Pronged Health Promotion Goals [Slide 200]:</strong>
+                <span class="text-slate-600 block mt-0.5">1. Increase span of healthy life for all citizens &bull; 2. Reduce health disparities among groups &bull; 3. Achieve universal access to preventive services.</span>
+              </div>
+            </div>
+
+            <!-- Evolutionary vs Revolutionary Change & Lewin's 3 Stages -->
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900">2. Nature of Change &amp; Lewin's 3 Sequential Stages</h3>
+                <span class="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded">[Slides 205–211 &bull; Rector p. 946–948]</span>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3 text-xs">
+                <div class="p-3 bg-slate-50 rounded-xl border border-slate-200">
+                  <span class="font-bold text-slate-800 block">Evolutionary Change (Gradual Reform)</span>
+                  Gradual, incremental modifications that do not replace current operations (e.g., becoming parents, tapering cigarettes daily, cutting desserts).
+                </div>
+                <div class="p-3 bg-red-50 rounded-xl border border-red-200">
+                  <span class="font-bold text-red-900 block">Revolutionary Change (Sudden/Drastic)</span>
+                  Rapid, threatening shift requiring radically new patterns without warning (e.g., sudden job loss, overnight smoking cessation, emergency child removal).
+                </div>
+              </div>
+
+              <!-- Lewin's 3 Stages -->
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-3 text-xs">
+                <div class="p-3.5 bg-blue-50 rounded-xl border border-blue-200">
+                  <div class="font-bold text-blue-900 text-sm">1. Unfreezing</div>
+                  <div class="text-[11px] text-blue-800 mt-1">
+                    Disequilibrium develops; people feel a void or dissatisfaction. Change is initiated either intrinsically or by external forces.
+                  </div>
+                </div>
+                <div class="p-3.5 bg-yellow-50 rounded-xl border border-yellow-200">
+                  <div class="font-bold text-yellow-900 text-sm">2. Changing / Moving</div>
+                  <div class="text-[11px] text-yellow-800 mt-1">
+                    People examine, try, and accept the innovation through attitude transformation. Change agent demonstrates value.
+                  </div>
+                </div>
+                <div class="p-3.5 bg-emerald-50 rounded-xl border border-emerald-200">
+                  <div class="font-bold text-emerald-900 text-sm">3. Refreezing</div>
+                  <div class="text-[11px] text-emerald-800 mt-1">
+                    Change is permanently integrated and stabilized into habits to avoid the natural tendency to relapse.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Planned Change: 8 Steps & 3 Strategies -->
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900">3. Planned-Change 8 Steps &amp; Chin-Benne Strategies</h3>
+                <span class="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded">[Slides 212–219 &bull; Rector p. 950–954]</span>
+              </div>
+
+              <!-- 8 Steps -->
+              <div class="mt-3 p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs">
+                <span class="font-bold text-slate-800 uppercase block mb-1">8 Steps of the Planned-Change Process:</span>
+                <div class="flex flex-wrap gap-1 font-mono text-[11px]">
+                  <span class="px-2 py-0.5 bg-white border rounded">1. Recognize symptoms</span> &rarr;
+                  <span class="px-2 py-0.5 bg-white border rounded">2. Diagnose need</span> &rarr;
+                  <span class="px-2 py-0.5 bg-white border rounded">3. Analyze alternatives</span> &rarr;
+                  <span class="px-2 py-0.5 bg-white border rounded">4. Select change</span> &rarr;
+                  <span class="px-2 py-0.5 bg-white border rounded">5. Plan change</span> &rarr;
+                  <span class="px-2 py-0.5 bg-white border rounded">6. Implement</span> &rarr;
+                  <span class="px-2 py-0.5 bg-white border rounded">7. Evaluate</span> &rarr;
+                  <span class="px-2 py-0.5 bg-white border rounded">8. Stabilize</span>
+                </div>
+              </div>
+
+              <!-- 6 Principles for Effecting Positive Change -->
+              <div class="mt-3 p-4 bg-purple-50/60 rounded-2xl border border-purple-200 text-xs">
+                <span class="font-bold text-purple-950 block mb-1">Six Principles for Effecting Positive Change:</span>
+                <ol class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-slate-700">
+                  <li><strong>1. Participation:</strong> Involve stakeholders in all steps.</li>
+                  <li><strong>2. Resistance to Change:</strong> Anticipate natural homeostasis.</li>
+                  <li><strong>3. Proper Timing:</strong> Postpone if timing is counterproductive.</li>
+                  <li><strong>4. Interdependence:</strong> Changing one part affects whole system.</li>
+                  <li><strong>5. Flexibility:</strong> Adapt gracefully to unforeseen barriers.</li>
+                  <li><strong>6. Self-Understanding:</strong> Nurse understands own motives/role.</li>
+                </ol>
+              </div>
+            </div>
+
+            <!-- Community Mobilization: Action Cycle & Case -->
+            <div>
+              <div class="flex items-center justify-between">
+                <h3 class="text-lg font-bold text-slate-900">4. Community Mobilization &amp; 7-Step Action Cycle</h3>
+                <span class="text-xs font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded">[Slides 224–233 &bull; Open University Module 19]</span>
+              </div>
+              <p class="text-xs text-slate-600 mt-2">
+                <strong>Community Mobilization Definition:</strong> A process by which communities are motivated to take action to improve their state of development and well-being, bringing together different societal factions to deal with health crises or social problems.
+              </p>
+
+              <div class="mt-3 p-4 bg-slate-50 rounded-2xl border border-slate-200 text-xs">
+                <span class="font-bold text-slate-800 uppercase block mb-2">Techniques to Involve Communities &amp; Opinion Leaders:</span>
+                <p class="text-slate-600 leading-relaxed">
+                  Identify <strong>opinion leaders</strong> and cultural informants who explain habits, customs, values, and taboos (community norms). Health professionals must never dictate; they engage in continuous dialogue while embodying role-model behaviors: <em>polite, patient, good listener, tolerant, honest, and non-judgmental</em>.
+                </p>
+              </div>
+
+              <!-- 7 Steps Action Cycle -->
+              <div class="mt-3 p-4 bg-emerald-50 rounded-2xl border border-emerald-200 text-xs">
+                <span class="font-bold text-uqu-900 uppercase block mb-2">The 7-Step Action Cycle (Female Circumcision Case Study) [Slide 232]:</span>
+                <ol class="list-decimal list-inside space-y-1.5 text-slate-700">
+                  <li><strong>Step 1:</strong> Identify significant health problem (e.g. female circumcision complications).</li>
+                  <li><strong>Step 2:</strong> Plan and select a strategy (e.g. conduct sensitization workshop for leaders).</li>
+                  <li><strong>Step 3:</strong> Identify key actors and stakeholders (village chief, Imam, heads of families).</li>
+                  <li><strong>Step 4:</strong> Mobilize key actors for collaborative action.</li>
+                  <li><strong>Step 5:</strong> Implement activities and intensify follow-up.</li>
+                  <li><strong>Step 6:</strong> Assess results of community activities.</li>
+                  <li><strong>Step 7:</strong> Improve and adapt activities based on assessment findings.</li>
+                </ol>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Floating Quick Actions Bar (Back-to-Top, Highlighter, Laser, Quiz) -->
+  <aside class="fixed bottom-6 left-6 z-40 flex items-center space-x-2 bg-slate-900/90 text-white p-2 rounded-2xl shadow-xl border border-slate-700 backdrop-blur-md">
+    <button id="scrollToTopBtn" class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-gold-400 transition" title="Scroll to Top">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+    </button>
+    <div class="h-5 w-px bg-slate-700"></div>
+    <button id="floatingStudyBtn" class="p-2.5 rounded-xl bg-uqu-700 hover:bg-uqu-600 text-white font-bold flex items-center gap-1.5 text-xs transition" title="Open Quiz &amp; Flashcards">
+      <svg class="w-4 h-4 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+      <span>Study Engine</span>
+    </button>
+  </aside>
+
+  <!-- Complete Script Implementation -->
+  <script>
+    // Audio Chime Synthesizer using Web Audio API
+    function playChime(type = 'success') {
+      try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+        
+        if (type === 'start') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
+          gain.gain.setValueAtTime(0.15, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.4);
+        } else if (type === 'finish') {
+          [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.frequency.setValueAtTime(freq, ctx.currentTime + i * 0.12);
+            gain.gain.setValueAtTime(0.12, ctx.currentTime + i * 0.12);
+            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.12 + 0.5);
+            osc.start(ctx.currentTime + i * 0.12);
+            osc.stop(ctx.currentTime + i * 0.12 + 0.5);
+          });
+        }
+      } catch (e) {
+        console.error('Audio cue error', e);
+      }
+    }
+
+    // In-App Toast System
+    function showToast(title, msg, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = `p-3 rounded-xl shadow-lg border text-xs max-w-sm pointer-events-auto flex items-start gap-2.5 transition-all transform duration-300 translate-y-4 ${
+        type === 'success' ? 'bg-emerald-900 border-emerald-700 text-white' :
+        type === 'warning' ? 'bg-amber-900 border-amber-700 text-white' :
+        'bg-slate-900 border-slate-700 text-white'
+      }`;
+      toast.innerHTML = `
+        <div class="mt-0.5">${type === 'success' ? '&#10004;' : '&#9432;'}</div>
+        <div class="flex-1">
+          <div class="font-bold">${title}</div>
+          <div class="text-[11px] text-slate-300">${msg}</div>
+        </div>
+      `;
+      container.appendChild(toast);
+      setTimeout(() => toast.classList.remove('translate-y-4'), 10);
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'translate-y-4');
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    // ==========================================
+    // 1. HIGHLIGHTER PEN ROLE WITH PERSISTENCE
+    // ==========================================
+    let currentHighlightColor = 'yellow';
+    let isEraserActive = false;
+
+    document.querySelectorAll('.hl-swatch').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.hl-swatch').forEach(b => b.classList.remove('ring-1', 'ring-yellow-400', 'border-2', 'border-white'));
+        e.target.classList.add('ring-1', 'ring-yellow-400', 'border-2', 'border-white');
+        currentHighlightColor = e.target.dataset.color;
+        isEraserActive = false;
+        document.getElementById('hlEraser').classList.remove('bg-red-600');
+        showToast('Highlighter Activated', `Ink changed to ${currentHighlightColor}. Select any text to mark.`, 'info');
+      });
+    });
+
+    document.getElementById('hlEraser').addEventListener('click', () => {
+      isEraserActive = !isEraserActive;
+      const btn = document.getElementById('hlEraser');
+      if (isEraserActive) {
+        btn.classList.add('bg-red-600');
+        showToast('Eraser Active', 'Click on highlighted text to remove mark.', 'warning');
+      } else {
+        btn.classList.remove('bg-red-600');
+        showToast('Highlighter Mode', 'Ready to mark text.', 'info');
+      }
+    });
+
+    // Apply text highlighting on selection
+    document.getElementById('studyContentContainer').addEventListener('mouseup', handleTextHighlight);
+    document.getElementById('studyContentContainer').addEventListener('touchend', handleTextHighlight);
+
+    function handleTextHighlight() {
+      if (isEraserActive) return;
+      const selection = window.getSelection();
+      if (!selection || selection.isCollapsed) return;
+
+      const range = selection.getRangeAt(0);
+      const span = document.createElement('mark');
+      span.className = `highlight highlight-${currentHighlightColor}`;
+      span.setAttribute('data-color', currentHighlightColor);
+
+      try {
+        range.surroundContents(span);
+        selection.removeAllRanges();
+        updateHighlightCounter();
+      } catch (err) {
+        // Selection crosses boundary elements
+        console.warn('Selection crossing node boundaries', err);
+      }
+    }
+
+    // Handle erasing highlights on click
+    document.getElementById('studyContentContainer').addEventListener('click', (e) => {
+      if (isEraserActive && e.target.tagName === 'MARK') {
+        const parent = e.target.parentNode;
+        while (e.target.firstChild) {
+          parent.insertBefore(e.target.firstChild, e.target);
+        }
+        parent.removeChild(e.target);
+        updateHighlightCounter();
+        showToast('Removed', 'Highlight erased.', 'info');
+      }
+    });
+
+    function updateHighlightCounter() {
+      const count = document.querySelectorAll('#studyContentContainer mark').length;
+      document.getElementById('savedHighlightCount').textContent = `${count} Highlight${count === 1 ? '' : 's'}`;
+    }
+
+    // ==========================================
+    // 2. LASER PEN PRESENTATION ENGINE (CANVAS)
+    // ==========================================
+    const canvas = document.getElementById('laserCanvas');
+    const ctx = canvas.getContext('2d');
+    let laserEnabled = false;
+    let laserColor = '#ef4444';
+    let mousePos = { x: -100, y: -100 };
+    let laserTrail = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    window.addEventListener('mousemove', (e) => {
+      mousePos.x = e.clientX;
+      mousePos.y = e.clientY;
+      if (laserEnabled) {
+        laserTrail.push({ x: e.clientX, y: e.clientY, time: Date.now() });
+      }
+    });
+
+    const laserToggleBtn = document.getElementById('laserToggleBtn');
+    const laserLabel = document.getElementById('laserBtnLabel');
+    const laserIndicator = document.getElementById('laserStatusIndicator');
+    const laserPicker = document.getElementById('laserColorPicker');
+
+    laserToggleBtn.addEventListener('click', () => {
+      laserEnabled = !laserEnabled;
+      if (laserEnabled) {
+        laserLabel.textContent = 'Laser: ON';
+        laserToggleBtn.classList.replace('bg-slate-700', 'bg-red-700');
+        laserIndicator.style.display = 'inline-block';
+        laserPicker.classList.remove('hidden');
+        showToast('Laser Pointer ON', 'Move cursor across the lecture slides to present.', 'success');
+      } else {
+        laserLabel.textContent = 'Laser: OFF';
+        laserToggleBtn.classList.replace('bg-red-700', 'bg-slate-700');
+        laserIndicator.style.display = 'none';
+        laserPicker.classList.add('hidden');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        laserTrail = [];
+      }
+    });
+
+    document.querySelectorAll('.laser-col').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.laser-col').forEach(b => b.classList.remove('ring-2', 'ring-white'));
+        e.target.classList.add('ring-2', 'ring-white');
+        laserColor = e.target.dataset.laser;
+      });
+    });
+
+    function renderLaser() {
+      if (laserEnabled) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const now = Date.now();
+        laserTrail = laserTrail.filter(pt => now - pt.time < 350);
+
+        if (laserTrail.length > 1) {
+          ctx.beginPath();
+          ctx.moveTo(laserTrail[0].x, laserTrail[0].y);
+          for (let i = 1; i < laserTrail.length; i++) {
+            ctx.lineTo(laserTrail[i].x, laserTrail[i].y);
+          }
+          ctx.strokeStyle = laserColor;
+          ctx.lineWidth = 3;
+          ctx.lineCap = 'round';
+          ctx.shadowBlur = 12;
+          ctx.shadowColor = laserColor;
+          ctx.stroke();
+        }
+
+        // Draw glowing laser head
+        ctx.beginPath();
+        ctx.arc(mousePos.x, mousePos.y, 6, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffffff';
+        ctx.shadowBlur = 18;
+        ctx.shadowColor = laserColor;
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(mousePos.x, mousePos.y, 10, 0, Math.PI * 2);
+        ctx.fillStyle = laserColor;
+        ctx.globalAlpha = 0.45;
+        ctx.fill();
+        ctx.globalAlpha = 1.0;
+      }
+      requestAnimationFrame(renderLaser);
+    }
+    requestAnimationFrame(renderLaser);
+
+    // ==========================================
+    // 3. FOCUS TIMER & ZEN SPOTLIGHT
+    // ==========================================
+    let timerDuration = 25 * 60;
+    let timerRemaining = timerDuration;
+    let timerInterval = null;
+    let isTimerRunning = false;
+
+    const timerDisplay = document.getElementById('timerDisplay');
+    const startTimerBtn = document.getElementById('startTimerBtn');
+    const pauseTimerBtn = document.getElementById('pauseTimerBtn');
+    const resetTimerBtn = document.getElementById('resetTimerBtn');
+
+    function updateTimerDisplay() {
+      const mins = Math.floor(timerRemaining / 60);
+      const secs = timerRemaining % 60;
+      timerDisplay.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
+    startTimerBtn.addEventListener('click', () => {
+      if (isTimerRunning) return;
+      isTimerRunning = true;
+      playChime('start');
+      showToast('Focus Session Started', 'Eliminate distractions and focus on CHN mastery.', 'success');
+      timerInterval = setInterval(() => {
+        if (timerRemaining > 0) {
+          timerRemaining--;
+          updateTimerDisplay();
+        } else {
+          clearInterval(timerInterval);
+          isTimerRunning = false;
+          playChime('finish');
+          showToast('Time Complete!', 'Outstanding focus! Take a 5-minute break.', 'success');
+        }
+      }, 1000);
+    });
+
+    pauseTimerBtn.addEventListener('click', () => {
+      if (!isTimerRunning) return;
+      clearInterval(timerInterval);
+      isTimerRunning = false;
+      showToast('Timer Paused', 'Session paused.', 'info');
+    });
+
+    resetTimerBtn.addEventListener('click', () => {
+      clearInterval(timerInterval);
+      isTimerRunning = false;
+      timerRemaining = timerDuration;
+      updateTimerDisplay();
+      showToast('Timer Reset', 'Timer returned to starting duration.', 'info');
+    });
+
+    document.querySelectorAll('.timer-preset').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.timer-preset').forEach(b => b.classList.replace('bg-emerald-700', 'bg-emerald-100'));
+        e.target.classList.replace('bg-emerald-100', 'bg-emerald-700');
+        const mins = parseInt(e.target.dataset.mins, 10);
+        timerDuration = mins * 60;
+        timerRemaining = timerDuration;
+        updateTimerDisplay();
+      });
+    });
+
+    // Zen Mode Toggle
+    const zenToggle = document.getElementById('zenToggle');
+    zenToggle.addEventListener('change', (e) => {
+      const activeCard = document.querySelector('.lecture-module:not([style*="display: none"])');
+      if (e.target.checked && activeCard) {
+        activeCard.classList.add('zen-active');
+        document.body.classList.add('zen-backdrop');
+        showToast('Zen Spotlight Enabled', 'Background dimmed. Focused on active lecture block.', 'info');
+      } else {
+        document.querySelectorAll('.lecture-module').forEach(m => m.classList.remove('zen-active'));
+        document.body.classList.remove('zen-backdrop');
+      }
+    });
+
+    // Modal Control: Focus
+    const focusModal = document.getElementById('focusModal');
+    document.getElementById('focusModeToggle').addEventListener('click', () => focusModal.classList.remove('hidden'));
+    document.getElementById('closeFocusModal').addEventListener('click', () => focusModal.classList.add('hidden'));
+
+    // ==========================================
+    // 4. SMARTER STUDYING: FLASHCARDS ENGINE
+    // ==========================================
+    const flashcardsData = [
+      {
+        category: "L1: Foundations & Core Distinctions",
+        ref: "Slide 3–7 | Rector p. 82–90",
+        question: "Differentiate Community vs. Population vs. Aggregate with an example for each.",
+        answer: "• Community: People sharing location or identity WITH interaction and sense of belonging (e.g. neighborhood residents).\n• Population: All persons sharing characteristics who do NOT necessarily interact (e.g. adults ≥ 65 yrs).\n• Aggregate: Broader collective mass/subgroup (e.g. older adults with diabetes). Both communities & populations are aggregates."
+      },
+      {
+        category: "L1: Saudi Health Indicators 2025",
+        ref: "Slide 16 | MOH 2025 Report",
+        question: "List the 6 key milestones reported in the Saudi Ministry of Health 2025 Health Sector Annual Report.",
+        answer: "1. Life Expectancy: 79.7 years.\n2. Infectious disease deaths: Reduced by 50%.\n3. NCD deaths: Reduced by 40%.\n4. Unintentional injuries deaths: Reduced by 30%.\n5. Road-traffic fatalities: Reduced by 60%.\n6. Healthy Cities: 16 Saudi cities recognized by WHO."
+      },
+      {
+        category: "L1: Cultural Humility vs Competency",
+        ref: "Slide 29–30 | Savage p. 8–9, Rector p. 384",
+        question: "How does Cultural Competence differ from Cultural Humility?",
+        answer: "• Cultural Competence: The standard of attitudes, knowledge, and skills to provide quality care without stereotyping.\n• Cultural Humility: The ongoing personal quality of self-awareness, approaching others as equals with deep respect for their norms."
+      },
+      {
+        category: "L2: 4-Part Community Nursing Diagnosis",
+        ref: "Slide 66–67 | Savage p. 116–117",
+        question: "What are the four components of a Community Nursing Diagnosis?",
+        answer: "1. The Problem (e.g. Social isolation).\n2. The Population (e.g. Older adults in Elmwood residential buildings).\n3. Related to / Etiology (e.g. Lack of programs, safety concerns, mobility issues).\n4. Demonstrated by / Indicators (e.g. 62% loneliness, naming only 1 person, 2nd highest crime rate)."
+      },
+      {
+        category: "L2: Formative vs Summative Evaluation",
+        ref: "Slide 73–76 | Savage p. 123, Rector p. 1328",
+        question: "Distinguish Formative from Summative Program Evaluation with slide examples.",
+        answer: "• Formative: Focuses on process DURING implementation ('Could I do anything better?'). Example: Moving senior evening class to midmorning due to night vision fears.\n• Summative: Focuses on OUTCOMES/impact after completion. Example: Increasing factory PPE adherence from 80% to 95% post-campaign."
+      },
+      {
+        category: "L3: Vaccine Science & Routes",
+        ref: "Slide 97–99 | CDC 2021 & Savage p. 380",
+        question: "Specify the administration routes for BCG, Measles/MMR, and Rotavirus.",
+        answer: "• Intradermal (ID): BCG (tuberculosis).\n• Subcutaneous (SC): MMR, Measles, Varicella, and selected IPV.\n• Oral: Rotavirus (RV) and Oral Polio Vaccine (OPV).\n• Intramuscular (IM): HepB, DTaP, Hib, PCV, MCV4, HPV, Tdap."
+      },
+      {
+        category: "L3: Saudi Vision 2030 Care Systems",
+        ref: "Slide 112–114 | MOH Modern Care Model",
+        question: "Name the six integrated care systems in the Saudi Modern Healthcare Model.",
+        answer: "1. Preventive Care\n2. Urgent Care\n3. Elective Care\n4. Safe Childbirth\n5. Chronic Disease Care\n6. Palliative Care"
+      },
+      {
+        category: "L4: Family as System Feedback Loop",
+        ref: "Slide 139 | Robinson et al. 2022",
+        question: "Explain the 'Family as System' concept using the pediatric asthma loop.",
+        answer: "Child's asthma attack → Parental stress & fatigue → Disrupted household routines → Inconsistent inhaler administration → Poor asthma control → More frequent asthma attacks → Escalating family crises."
+      },
+      {
+        category: "L4: Genogram vs. Ecomap",
+        ref: "Slide 151–154 | Robinson 2022, WHO 2016",
+        question: "What is the structural difference between a Genogram and an Ecomap?",
+        answer: "• Genogram: Internal multi-generational family tree (≥ 3 generations) showing biological genetics, deaths, and kinship.\n• Ecomap: External ecosystem diagram showing family ties with outside systems (schools, mosque, health centers, jobs) with stress/support lines."
+      },
+      {
+        category: "L5: Erikson's Stage & Trauma Mortality",
+        ref: "Slide 167 & 172 | Rector p. 1691–1720",
+        question: "What is the Erikson stage for school-age children, and what is the #1 cause of trauma mortality?",
+        answer: "• Erikson Stage: Industry vs. Inferiority (task mastery, competence, self-identity).\n• Mortality: Motor vehicle crashes are the #1 leading cause of death for children aged 5–19 years. Cell phone driving raises crash risk by 3×."
+      },
+      {
+        category: "L6: Lewin's 3 Stages of Change",
+        ref: "Slide 208–211 | Rector p. 947–948",
+        question: "Detail Lewin's three sequential stages of change.",
+        answer: "1. Unfreezing: Disequilibrium; developing need and motivation for change.\n2. Changing: Examining, trying out, and accepting the innovation.\n3. Refreezing: Integrating and internalizing the new habit permanently to prevent relapse."
+      },
+      {
+        category: "L6: Chin-Benne 3 Change Strategies",
+        ref: "Slide 213–216 | Rector p. 1056–1057",
+        question: "Identify the 3 planned-change strategies and describe when power-coercive is used.",
+        answer: "1. Empiric-Rational (assumes people are rational and respond to facts).\n2. Normative-Re-educative (direct persuasion and shifting social norms).\n3. Power-Coercive (forced compliance via laws/authority; used in life-threatening public health crises; caution: robs autonomy)."
+      }
+    ];
+
+    let currentCardIndex = 0;
+    let masteredCards = new Set();
+
+    const activeFlashcard = document.getElementById('activeFlashcard');
+    const cardInner = document.getElementById('cardInner');
+    const cardCategoryBadge = document.getElementById('cardCategoryBadge');
+    const cardProgress = document.getElementById('cardProgress');
+    const cardQuestion = document.getElementById('cardQuestion');
+    const cardAnswer = document.getElementById('cardAnswer');
+    const cardSlideRef = document.getElementById('cardSlideRef');
+    const masteredCount = document.getElementById('masteredCount');
+
+    function renderCard(idx) {
+      cardInner.classList.remove('is-flipped');
+      const item = flashcardsData[idx];
+      cardCategoryBadge.textContent = item.category;
+      cardSlideRef.textContent = item.ref;
+      cardQuestion.textContent = item.question;
+      cardAnswer.innerHTML = item.answer.replace(/\n/g, '<br>');
+      cardProgress.textContent = `Card ${idx + 1} of ${flashcardsData.length}`;
+      masteredCount.textContent = masteredCards.size;
+    }
+
+    activeFlashcard.addEventListener('click', () => {
+      cardInner.classList.toggle('is-flipped');
+    });
+
+    document.getElementById('nextCardBtn').addEventListener('click', () => {
+      currentCardIndex = (currentCardIndex + 1) % flashcardsData.length;
+      renderCard(currentCardIndex);
+    });
+
+    document.getElementById('prevCardBtn').addEventListener('click', () => {
+      currentCardIndex = (currentCardIndex - 1 + flashcardsData.length) % flashcardsData.length;
+      renderCard(currentCardIndex);
+    });
+
+    document.getElementById('markMasteredBtn').addEventListener('click', () => {
+      masteredCards.add(currentCardIndex);
+      masteredCount.textContent = masteredCards.size;
+      showToast('Mastered!', 'Card recorded in active recall mastery list.', 'success');
+      currentCardIndex = (currentCardIndex + 1) % flashcardsData.length;
+      renderCard(currentCardIndex);
+    });
+
+    document.getElementById('markReviewBtn').addEventListener('click', () => {
+      masteredCards.delete(currentCardIndex);
+      masteredCount.textContent = masteredCards.size;
+      showToast('Flagged', 'Card kept in review queue.', 'warning');
+    });
+
+    // ==========================================
+    // 5. SMARTER STUDYING: MOCK QUIZ ENGINE
+    // ==========================================
+    const quizData = [
+      {
+        question: "According to the Saudi Ministry of Health 2025 Annual Report, road-traffic fatalities in the Kingdom have been reduced by what percentage?",
+        options: ["30%", "40%", "50%", "60%"],
+        answer: 3,
+        citation: "L1 Slide 16 | MOH 2025 Annual Report",
+        rationale: "The 2025 MOH Report specifically documented: Life expectancy 79.7 years, infectious diseases reduced by 50%, NCDs by 40%, unintentional injuries by 30%, and road-traffic fatalities reduced by 60%."
+      },
+      {
+        question: "Which of the following is true regarding a 'Population' compared to a 'Community'?",
+        options: [
+          "A population always shares a strong emotional bond and interacts regularly.",
+          "A population consists of people who do not necessarily interact or share a sense of belonging.",
+          "Communities are always larger than populations.",
+          "Populations are never considered aggregates."
+        ],
+        answer: 1,
+        citation: "L1 Slide 5 & 7 | Rector (2022) p. 90",
+        rationale: "In contrast to a community, a population is composed of people occupying an area or sharing characteristics who do not necessarily interact or share a mutual sense of belonging."
+      },
+      {
+        question: "A community health nurse moves a senior health class from 7:00 PM to 10:00 AM because seniors feared driving in the dark, which immediately increased attendance. This is an example of:",
+        options: ["Summative Evaluation", "Formative Evaluation", "Epidemiologic Cohort Study", "Health Impact Assessment"],
+        answer: 1,
+        citation: "L2 Slide 74 | Savage p. 123, Rector p. 1333",
+        rationale: "Formative evaluation examines the ongoing process DURING implementation to make immediate improvements ('Could I do anything differently?')."
+      },
+      {
+        question: "What is the correct route of administration for the Bacille Calmette-Guérin (BCG) vaccine at birth?",
+        options: ["Subcutaneous (SC)", "Intramuscular (IM)", "Intradermal (ID)", "Oral"],
+        answer: 2,
+        citation: "L3 Slide 98 | CDC & Savage p. 380",
+        rationale: "The BCG vaccine is administered strictly via the Intradermal (ID) route."
+      },
+      {
+        question: "In the Saudi Modern Healthcare Model, which integrated care system ensures continuous support from pre-marital screening through childbirth and postnatal care?",
+        options: ["Elective care", "Safe childbirth", "Preventive care", "Urgent care"],
+        answer: 1,
+        citation: "L3 Slide 114 | Saudi MOH Modern Care Model",
+        rationale: "The Safe Childbirth care system is designed specifically to provide comprehensive continuum care from pre-marital consultation through delivery and the postnatal period."
+      },
+      {
+        question: "When viewing the family as 'Client' (Family as Client), what is the primary focus of nursing assessment?",
+        options: [
+          "The individual patient, with family simply acting as background support.",
+          "The family unit as an interdependent focus of assessment and intervention.",
+          "The surrounding physical neighborhood exclusively.",
+          "Only the financial provider of the household."
+        ],
+        answer: 1,
+        citation: "L4 Slide 138 | Potter et al. (2013)",
+        rationale: "In Family as Client, the entire family unit becomes the central focus of assessment, communication, coping, and intervention."
+      },
+      {
+        question: "What is the leading cause of death among children aged 5 to 19 years?",
+        options: ["Childhood leukemia", "Motor vehicle-related injuries", "Asthma exacerbations", "Lead poisoning"],
+        answer: 1,
+        citation: "L5 Slide 172 | Rector p. 1719–1720",
+        rationale: "Motor vehicle crashes represent the number one leading cause of death for ages 5 to 19 (and rank second for ages 0 to 4)."
+      },
+      {
+        question: "A public health director uses legal authority and executive municipal penalties to enforce quarantine during an infectious disease outbreak. Which change strategy is this?",
+        options: ["Empiric-Rational", "Normative-Re-educative", "Power-Coercive", "Evolutionary Reform"],
+        answer: 2,
+        citation: "L6 Slide 216 | Rector p. 1056–1057",
+        rationale: "Power-Coercive strategies rely on law, position, or sanctions to produce forced compliance in emergency, life-threatening public health scenarios."
+      }
+    ];
+
+    let currentQuizIndex = 0;
+    let quizScore = 0;
+    let answered = false;
+
+    function renderQuizQuestion(idx) {
+      answered = false;
+      const q = quizData[idx];
+      document.getElementById('quizQuestionBadge').textContent = `Question ${idx + 1} of ${quizData.length}`;
+      document.getElementById('quizCitationBadge').textContent = q.citation;
+      document.getElementById('quizQuestionText').textContent = q.question;
+      document.getElementById('quizScoreTracker').textContent = `Score: ${quizScore} / ${idx}`;
+
+      const container = document.getElementById('quizOptionsContainer');
+      container.innerHTML = '';
+      const expBox = document.getElementById('quizExplanation');
+      expBox.className = 'hidden mt-4 p-3.5 rounded-lg text-xs leading-relaxed';
+      expBox.innerHTML = '';
+      document.getElementById('nextQuizBtn').disabled = true;
+
+      q.options.forEach((opt, oIdx) => {
+        const btn = document.createElement('button');
+        btn.className = 'w-full text-left p-3 rounded-xl border border-slate-200 text-xs text-slate-700 hover:bg-slate-50 transition flex items-start gap-2.5';
+        btn.innerHTML = `<span class="font-bold text-slate-400 font-mono">${String.fromCharCode(65 + oIdx)}.</span> <span>${opt}</span>`;
+        btn.addEventListener('click', () => handleQuizAnswer(oIdx, btn));
+        container.appendChild(btn);
+      });
+    }
+
+    function handleQuizAnswer(selectedIdx, btnElement) {
+      if (answered) return;
+      answered = true;
+      const q = quizData[currentQuizIndex];
+      const allButtons = document.querySelectorAll('#quizOptionsContainer button');
+      const expBox = document.getElementById('quizExplanation');
+
+      if (selectedIdx === q.answer) {
+        quizScore++;
+        btnElement.classList.remove('border-slate-200', 'hover:bg-slate-50');
+        btnElement.classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-900', 'font-semibold');
+        expBox.className = 'mt-4 p-3.5 rounded-lg text-xs leading-relaxed bg-emerald-50 border border-emerald-300 text-emerald-900 block';
+        expBox.innerHTML = `<strong>Correct!</strong> ${q.rationale}`;
+        playChime('start');
+      } else {
+        btnElement.classList.remove('border-slate-200', 'hover:bg-slate-50');
+        btnElement.classList.add('bg-red-50', 'border-red-500', 'text-red-900', 'font-semibold');
+        allButtons[q.answer].classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-900', 'font-semibold');
+        expBox.className = 'mt-4 p-3.5 rounded-lg text-xs leading-relaxed bg-red-50 border border-red-300 text-red-900 block';
+        expBox.innerHTML = `<strong>Incorrect.</strong> ${q.rationale}`;
+      }
+
+      document.getElementById('quizScoreTracker').textContent = `Score: ${quizScore} / ${currentQuizIndex + 1}`;
+      document.getElementById('nextQuizBtn').disabled = false;
+    }
+
+    document.getElementById('nextQuizBtn').addEventListener('click', () => {
+      if (currentQuizIndex < quizData.length - 1) {
+        currentQuizIndex++;
+        renderQuizQuestion(currentQuizIndex);
+      } else {
+        // Quiz finished
+        const container = document.getElementById('quizOptionsContainer');
+        container.innerHTML = `
+          <div class="text-center py-8">
+            <div class="text-4xl mb-2">&#127942;</div>
+            <h4 class="text-lg font-bold text-slate-800">Quiz Completed!</h4>
+            <p class="text-xs text-slate-600 mt-1">Final Score: <strong class="text-uqu-800">${quizScore} out of ${quizData.length}</strong> (${Math.round((quizScore/quizData.length)*100)}%)</p>
+          </div>
+        `;
+        document.getElementById('nextQuizBtn').disabled = true;
+        playChime('finish');
+      }
+    });
+
+    document.getElementById('resetQuizBtn').addEventListener('click', () => {
+      currentQuizIndex = 0;
+      quizScore = 0;
+      renderQuizQuestion(0);
+      showToast('Quiz Reset', 'Mock exam restarted.', 'info');
+    });
+
+    // ==========================================
+    // 6. MODAL SWITCHING & NAVIGATION CONTROLS
+    // ==========================================
+    const smartStudyModal = document.getElementById('smartStudyModal');
+    document.getElementById('smartStudyToggle').addEventListener('click', () => {
+      smartStudyModal.classList.remove('hidden');
+      renderCard(currentCardIndex);
+      renderQuizQuestion(currentQuizIndex);
+    });
+    document.getElementById('floatingStudyBtn').addEventListener('click', () => {
+      smartStudyModal.classList.remove('hidden');
+      renderCard(currentCardIndex);
+      renderQuizQuestion(currentQuizIndex);
+    });
+    document.getElementById('closeSmartStudyModal').addEventListener('click', () => {
+      smartStudyModal.classList.add('hidden');
+    });
+
+    // Tabs inside Study Modal
+    document.querySelectorAll('.study-tab-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.study-tab-btn').forEach(b => {
+          b.classList.remove('bg-gold-500', 'text-slate-900');
+          b.classList.add('text-emerald-200');
+        });
+        e.target.classList.add('bg-gold-500', 'text-slate-900');
+        e.target.classList.remove('text-emerald-200');
+
+        document.querySelectorAll('.study-tab-panel').forEach(p => p.classList.add('hidden'));
+        document.getElementById(e.target.dataset.target).classList.remove('hidden');
+      });
+    });
+
+    // Global Search Filter
+    const globalSearch = document.getElementById('globalSearch');
+    globalSearch.addEventListener('input', (e) => {
+      const term = e.target.value.toLowerCase().trim();
+      const modules = document.querySelectorAll('.lecture-module');
+      
+      modules.forEach(mod => {
+        const text = mod.textContent.toLowerCase();
+        if (text.includes(term)) {
+          mod.style.display = 'block';
+        } else {
+          mod.style.display = 'none';
+        }
+      });
+    });
+
+    // Lecture Pill Filters (All, L1, L2, L3, L4, L5, L6)
+    document.querySelectorAll('#lecturePillFilter button').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('#lecturePillFilter button').forEach(b => {
+          b.classList.replace('bg-gold-500', 'bg-uqu-800');
+          b.classList.replace('text-white', 'text-emerald-200');
+        });
+        e.target.classList.replace('bg-uqu-800', 'bg-gold-500');
+        e.target.classList.replace('text-emerald-200', 'text-white');
+
+        const filter = e.target.dataset.filter;
+        const modules = document.querySelectorAll('.lecture-module');
+        modules.forEach(mod => {
+          if (filter === 'all' || mod.dataset.lecture === filter) {
+            mod.style.display = 'block';
+          } else {
+            mod.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Smooth Scroll to Top
+    document.getElementById('scrollToTopBtn').addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // Initializations
+    window.onload = function () {
+      updateHighlightCounter();
+      renderCard(0);
+      renderQuizQuestion(0);
+    };
+  </script>
+</body>
+</html>
